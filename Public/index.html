@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyCart</title>
+    <title>EasyCar - Homepage</title>
+    <link rel="stylesheet" href="style.css">
+    <!--Todo: redirect login to signup-->
 </head>
 <body>
-    
+    <header>
+        <div id="logo"><img src="assets/logo.jpg" width="100" height="90"></div>  
+        <button class="button" type="button" onclick="goToLoginPage()">Login</button>
+        <button class="button" type="button" onclick="goToCartPage()">Cart</button>
+        <button class="button" type="button" onclick="goToOrderPage()">My orders</button>
+        <div class="submit">
+            <input type="text" id="searchBar" placeholder="Search for items" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
+        </div>
+    </header>
+    <div class="slider">
+        <div class="slides">
+            <div class="slide"><img src="image1.jpg" alt="Image 1"></div>
+            <div class="slide"><img src="image2.jpg" alt="Image 2"></div>
+            <div class="slide"><img src="image3.jpg" alt="Image 3"></div>
+            <div class="slide"><img src="image4.jpg" alt="Image 4"></div>
+            <div class="slide"><img src="image5.jpg" alt="Image 5"></div>
+        </div>
+        <div class="controls">
+            <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
+            <span class="next" onclick="changeSlide(1)">&#10095;</span>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
