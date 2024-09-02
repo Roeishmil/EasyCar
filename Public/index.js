@@ -1,4 +1,5 @@
 let currentIndex = 0;
+const slideInterval = 6000; // 6 seconds
 
 function showSlide(index) {
     const slides = document.querySelector('.slides');
@@ -13,25 +14,61 @@ function showSlide(index) {
     }
 
     slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    // Reset and start the progress bar for the current slide
+    resetProgressBar();
+    startProgressBar();
 }
 
 function changeSlide(step) {
     showSlide(currentIndex + step);
 }
 
+function resetProgressBar() {
+    const progressBar = document.querySelectorAll('.progress-bar')[currentIndex];
+    progressBar.style.width = '0%'; // Reset the width to 0%
+    progressBar.style.transition = 'none'; // Disable transition temporarily
+}
+
+function startProgressBar() {
+    const progressBar = document.querySelectorAll('.progress-bar')[currentIndex];
+    setTimeout(() => {
+        progressBar.style.transition = `width ${slideInterval}ms linear`;
+        progressBar.style.width = '72%'; // Start the filling animation
+    }, 50); // Small delay to ensure reset is applied
+}
+
 // Auto-slide
-setInterval(() => {
-    changeSlide(1);
-}, 5000);
+setInterval(() => { changeSlide(1); }, slideInterval);
+
+// Start the initial progress bar animation
+startProgressBar();
 
 function goToLoginPage(){
     window.location.href = 'login.html';
 }
 
-function goToCartPage(){
+function goToStockPage(){
     window.location.href = 'cart.html';
 }
 
 function goToOrderPage(){
     window.location.href = 'orders.html';
 }
+
+//JavaScript to initialize the map
+// Initialize and add the map
+function initMap() {
+    // The location
+    const location = { lat: 31.9669606, lng: 34.7650917 }; // Example coordinates
+    // The map, centered at location
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 8,
+      center: location,
+    });
+    // The marker, positioned at location
+    const marker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+  }

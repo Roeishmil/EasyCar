@@ -11,26 +11,118 @@
     <header>
         <div id="logo"><img src="assets/logo.jpg" width="100" height="90"></div>  
         <button class="button" type="button" onclick="goToLoginPage()">Login</button>
-        <button class="button" type="button" onclick="goToCartPage()">Cart</button>
+        <button class="button" type="button" onclick="goToStockPage()">Current Stock</button>
         <button class="button" type="button" onclick="goToOrderPage()">My orders</button>
         <div class="submit">
-            <input type="text" id="searchBar" placeholder="Search for items" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
+            <input type="text" id="searchBar" placeholder="⌕ Search" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
         </div>
     </header>
     <div class="slider">
         <div class="slides">
-            <div class="slide"><img src="image1.jpg" alt="Image 1"></div>
-            <div class="slide"><img src="image2.jpg" alt="Image 2"></div>
-            <div class="slide"><img src="image3.jpg" alt="Image 3"></div>
-            <div class="slide"><img src="image4.jpg" alt="Image 4"></div>
-            <div class="slide"><img src="image5.jpg" alt="Image 5"></div>
+            <div class="slide">
+                <img src="assets/lamborghini_huracan.jpg" alt="Logo">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="slide">
+                <img src="assets\bmw_m5.jpg" alt="M5">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="slide">
+                <img src="assets\aston_martin_dbs.jpg" alt="dbs">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="slide">
+                <img src="assets\rolls_royce.jpg" alt="rolls_royce">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="slide">
+                <img src="assets\mercedes_gclass.jpg" alt="gclass">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="slide">
+                <img src="assets\lamborghini_huracan.jpg" alt="huracan">
+                <div class="progress-bar"></div>
+            </div>
+            <!-- Add more slides here if needed -->
         </div>
         <div class="controls">
             <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
             <span class="next" onclick="changeSlide(1)">&#10095;</span>
         </div>
     </div>
+    <div class="greeting">
+        <h3>WELCOME TO</h3>
+        <h1>EASYCAR INTERNATIONAL</h1>
+        <p>
+            are a family run business, an independent luxury car dealership established in 1994 with a curated selection of the latest supercars, luxury SUVs and modern performance cars for sale.
+        </p>
+        <p>
+            We pride ourselves on preparing and presenting them to the very highest standards whilst our long-serving staff are dedicated to building relationships and ensuring the experience of buying or selling supercars is always an enjoyable, seamless and secure process.
+        </p>
+        <br>
+    </div>
+    <br>
+    <section class="car-listings">
+        <div class="car-card">
+            <h3>Porsche 911 GT3 RS Weissach (991.2)</h3>
+            <img src="assets\bmw_m5.jpg" alt="Porsche 911 GT3 RS Weissach">
+            <div class="car-details">
+                <p><strong>Year:</strong> 2019 (69)</p>
+                <p><strong>Price:</strong> £199,950</p>
+                <p><strong>Colour:</strong> Lizard Green</p>
+                <p><strong>Mileage:</strong> 6,203</p>
+            </div>
+            <button class="view-vehicle">View Vehicle</button>
+        </div>
 
+        <div class="car-card">
+            <h3>Ferrari Purosangue</h3>
+            <img src="assets\aston_martin_dbs.jpg" alt="Ferrari Purosangue">
+            <div class="car-details">
+                <p><strong>Year:</strong> 2024 (24)</p>
+                <p><strong>Price:</strong> £464,950</p>
+                <p><strong>Colour:</strong> Verde Minerale</p>
+                <p><strong>Mileage:</strong> 892</p>
+            </div>
+            <button class="view-vehicle">View Vehicle</button>
+        </div>
+
+        <div class="car-card">
+            <h3>Porsche 911 50th Anniversary</h3>
+            <img src="assets\mercedes_gclass.jpg" alt="Porsche 911 50th Anniversary Edition">
+            <div class="car-details">
+                <p><strong>Year:</strong> 2014 (14)</p>
+                <p><strong>Price:</strong> £99,950</p>
+                <p><strong>Colour:</strong> Graphite Grey</p>
+                <p><strong>Mileage:</strong> 8,378</p>
+            </div>
+            <button class="view-vehicle">View Vehicle</button>
+        </div>
+
+        <div class="car-card">
+            <h3>Lamborghini Urus</h3>
+            <img src="assets\lamborghini_huracan.jpg" alt="Lamborghini Urus">
+            <div class="car-details">
+                <p><strong>Year:</strong> 2020 (70)</p>
+                <p><strong>Price:</strong> £179,950</p>
+                <p><strong>Colour:</strong> Nero Helene</p>
+                <p><strong>Mileage:</strong> 15,784</p>
+            </div>
+            <button class="view-vehicle">View Vehicle</button>
+        </div>
+    </section>
     <script src="index.js"></script>
 </body>
+<!-- Footer Section -->
+<footer style="background-color: #333; color: #fff; padding: 20px; text-align: center;">
+    <div class="footer-content">
+        <div id="logofooter"><img src="assets/logo.jpg" width="100" height="90"></div> 
+      <p>EasyCar, central district, Rishon LeyZion, Mota Gor.</p>
+      <p><a style="color: #fff;"> 012-345678 </a> | <a style="color: #fff;">EasyCar@gmail.com</a></p>
+    </div>
+  
+    <!-- Google Maps Placeholder -->
+    <div id="map" style="width: 100%; height: 300px; margin-top: 30px;"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjtKOUHI9_9TXTNjEGUfKUDFao-QASCM&callback=initMap"></script>
+  </footer>
 </html>

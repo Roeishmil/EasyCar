@@ -1,46 +1,192 @@
-#logo{
-    float: right;
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: #434242;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(18,21,31,255);
+    margin-bottom: 1%;
+}
+
+#logo {
+    margin-right: auto;
+}
+
+.button {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #1a1a1a;
+}
+
+.submit input {
+    padding: 10px;
+    border-radius: 15px;
+    width: 150px;
 }
 
 .slider {
     position: relative;
-    width: 90%;
-    max-width: 80%;
+    width: 100%;
+    height: 500px; /* Adjusted height */
     overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    height: 100%;
 }
 
 .slide {
     min-width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .slide img {
     width: 100%;
-    border-radius: 10px;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the slide area */
 }
 
 .controls {
-    position: absolute;
+    position:absolute;
     top: 50%;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .prev, .next {
+    pointer-events: auto;
     cursor: pointer;
     font-size: 2rem;
     color: white;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     user-select: none;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.prev:active, .next:active {
+    transform: scale(0.92);
+}
+
+.controls .prev {
+    margin-right: auto;
+}
+
+.controls .next {
+    margin-left: auto;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    position: absolute;
+    bottom: 10px; /* Floating near the bottom */
+    left: 10%;
+    right: 10%;
+    height: 1.4%; /* Reduced height */
+    background-color: rgba(255, 255, 255, 0.544); /* Semi-transparent red color */
+    width: 0%; /* Start with 0% width */
+    border-radius: 2.5px; /* Rounded edges */
+}
+
+.greeting{
+    text-align: center;
+    background: #333;
+    font-size: 15px;
+    color: white;
+}
+
+.car-listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.car-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: calc(25% - 40px); /* Four cards per row with some margin */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between;
+    height: 100%; /* Ensure the card takes up full height */
+    
+}
+
+.car-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.car-card h3 {
+    font-size: 1.25em;
+    margin: 16px;
+}
+
+.car-details {
+    padding: 0 16px;
+    flex-grow: 1; /* Ensure the details section expands to push the button down */
+}
+
+.car-details p {
+    margin: 8px 0;
+}
+
+.view-vehicle {
+    padding: 12px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    position: relative; /* Ensure it remains within the context of the card */
+    bottom: 0; /* Attach to the bottom of the card */
+    width: 100%; /* Ensure it takes the full width */
+    margin-top: 20%; /* Ensure it's pushed to the bottom of the card */
+}
+
+.view-vehicle:hover {
+    background-color: #333;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
 }
