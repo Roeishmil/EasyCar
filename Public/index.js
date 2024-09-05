@@ -72,3 +72,26 @@ function initMap() {
       map: map,
     });
   }
+
+// Updated event listener for the orders button
+document.getElementById('orders').addEventListener('click', async function(event) {
+    event.preventDefault(); // Prevent any default action
+  
+    const name = "eldar"; // The generic name you want to insert
+  
+    try {
+      // Send the data to the server using fetch
+      const response = await fetch('/insert', {
+        method: 'POST', //means that data will be sent in the body of the request to the server
+        headers: { //the data being sent is in JSON format
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name }) // Send the name in the body
+      });
+  
+      const result = await response.json(); //converts the response from the server (which is also in JSON format) back into a JavaScript object for further use.
+  
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });

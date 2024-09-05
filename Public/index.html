@@ -12,7 +12,7 @@
         <div id="logo"><img src="assets/logo.jpg" width="100" height="90"></div>  
         <button class="button" type="button" onclick="goToLoginPage()">Login</button>
         <button class="button" type="button" onclick="goToStockPage()">Current Stock</button>
-        <button class="button" type="button" onclick="goToOrderPage()">My orders</button>
+        <button class="button" id="orders" type="button" onclick="goToOrderPage()">My orders</button>
         <div class="submit">
             <input type="text" id="searchBar" placeholder="⌕ Search" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
         </div>
