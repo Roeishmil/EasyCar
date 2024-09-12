@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="index.js"></script> <!-- Ensure the script is loaded after the HTML -->
 </head>
-<body>
-    <h1>Login</h1>
+<body id="loginBody">
+    <h1 id="loginH1">Login</h1>
+    <form id="loginForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="loginUsername" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="loginPassword" name="password" required>
+        </div>
+        <div>
+            <button id="loginSubmit" type="button">Login</button>
+        </div>
+    </form>
 </body>
 </html>

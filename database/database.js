@@ -33,5 +33,17 @@ async function insertData(data) {
       throw err;
     }
   }
-  
-  module.exports = { insertData }; // exporting this function (we catch it in app.js)
+
+// Function to check if user exists in the database
+async function IsInDatabase(loginInfo, collectionName) {
+  try {
+      const collection = db.collection(collectionName); // Reference to the 'users' collection
+      const user = await collection.findOne({ username: loginInfo.username, password: loginInfo.password });
+      return user;  // Return the user document if found
+  } catch (err) {
+      console.error('Error finding user in database', err);
+      throw err;
+  }
+}
+
+module.exports = { insertData, IsInDatabase };  // Exporting functions

@@ -44,17 +44,6 @@ setInterval(() => { changeSlide(1); }, slideInterval);
 // Start the initial progress bar animation
 startProgressBar();
 
-function goToLoginPage(){
-    window.location.href = 'login.html';
-}
-
-function goToStockPage(){
-    window.location.href = 'cart.html';
-}
-
-function goToOrderPage(){
-    window.location.href = 'orders.html';
-}
 
 //JavaScript to initialize the map
 // Initialize and add the map
@@ -95,3 +84,38 @@ document.getElementById('orders').addEventListener('click', async function(event
       console.error('Error:', error);
     }
   });
+
+// Add an event listener to the login button
+document.getElementById('loginSubmit').addEventListener('click', async function(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  try {
+      // Get username and password from input fields
+      const loginUsername = document.getElementById('loginUsername').value;
+      const loginPassword = document.getElementById('loginPassword').value;
+
+      // Make the POST request to your server with the login details
+      const response = await fetch('/validateLogin', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username: loginUsername, password: loginPassword })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+          console.log('Login successful! User level:', result.level);
+          // Redirect to another page or show a success message
+      } else {
+          console.log('Login failed:', result.message);
+          alert('Invalid login credentials.');
+      }
+  } catch (error) {
+      console.error('Error:', error.message);
+      alert('An error occurred during login.');
+  }
+});
+
+ 

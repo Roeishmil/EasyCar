@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase } = require('./database/database'); // catching from database.js the function
 
 app.use(bodyParser.json());
 
@@ -21,5 +21,23 @@ app.post('/insert', async (req, res) => {
   }
 });
 
+app.post('/validateLogin', async (req, res) => {
+  const loginInfo = req.body;  // Get the username and password from the request body
+
+  try {
+      const user = await IsInDatabase(loginInfo, 'users');  // Check if user exists in the 'users' collection
+      if (user) {
+          res.json({ success: true, level: user.level });  // Send success response with user's level
+      } else {
+          res.status(401).json({ success: false, message: 'Invalid username or password' });
+      }
+  } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
 // Start the server
-app.listen(3000,()=>{console.log("server running on 3000");});
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
