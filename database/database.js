@@ -35,11 +35,22 @@ async function insertData(data) {
   }
 
 // Function to check if user exists in the database
-async function IsInDatabase(inputData, collectionName) {
+async function IsInDatabase(inputData, collectionName,Type) {
+  let user;
   try {
-      const collection = db.collection(collectionName); // Reference to the 'users' collection
-      const user = await collection.findOne({ username: inputData.username, password: inputData.password });
-      console.log('User found',user);
+      const collection = db.collection(collectionName);
+      switch(Type) {
+        case 'login':
+          user = await collection.findOne({ username: inputData.username, password: inputData.password });  
+          break;
+
+        case 'signup':
+          user = await collection.findOne({ username: inputData.username}); 
+          break;
+      }
+      if(user){
+      console.log('Match found',user);
+      }
       return user;  // Return the user document if found
   } catch (err) {
       console.error('Error finding user in database', err);
@@ -47,4 +58,16 @@ async function IsInDatabase(inputData, collectionName) {
   }
 }
 
-module.exports = { insertData, IsInDatabase };  // Exporting functions
+async function insertToDataBase(data,collectionName) {
+  try {
+    const collection = db.collection(collectionName); // Reference to the 'users' collection
+    const result = await collection.insertOne(data);
+    return result;
+  } catch (err) {
+    console.error('Failed to insert data', err);
+    throw err;
+  }
+}
+
+
+module.exports = { insertData, IsInDatabase,insertToDataBase };  // Exporting functions

@@ -191,7 +191,7 @@ footer {
     text-align: center;
 }
 
-#loginBody {
+#loginBody,#signupBody {
     background-color: #434242;
     display: flex;
     flex-direction: column;
@@ -201,7 +201,7 @@ footer {
     margin: 0;
 }
 
-#loginForm {
+#loginForm,#signupForm {
     background-color: #f2f2f2;
     padding: 40px;
     border-radius: 10px;
@@ -213,7 +213,7 @@ footer {
     justify-content: center;
 }
 
-#loginH1 {
+#loginH1,#signupH1 {
     color: white;
     text-align: center;
     margin-bottom: 20px; /* Space between h1 and form */
@@ -227,7 +227,9 @@ label {
 }
 
 #loginUsername,
-#loginPassword {
+#loginPassword,
+#signypUsername,
+#signupPassword {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -236,8 +238,9 @@ label {
     font-size: 1em;
 }
 
-#loginSubmit {
+#loginSubmitButton,#signupSubmitButton {
     width: 100%;
+    margin-top: 3%;
     padding: 10px;
     background-color: #333;
     color: white;
@@ -248,10 +251,12 @@ label {
     transition: background-color 0.3s;
 }
 
-#loginSubmit:hover {
+#loginSubmitButton:hover,
+#signupSubmitButton:hover {
     background-color: #555;
 }
 
-#loginSubmit:active {
+#loginSubmitButton:active,
+#signupSubmitButton:active {
     background-color: #111;
 }

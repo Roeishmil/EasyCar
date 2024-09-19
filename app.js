@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase,insertToDataBase} = require('./database/database'); // catching from database.js the function
 
 app.use(bodyParser.json());
 
@@ -26,7 +26,7 @@ app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the i
 
   try {
       console.log('Login validation'); //Testing
-      const user = await IsInDatabase(loginInfo, 'users');  // Check if user exists in the 'users' collection
+      const user = await IsInDatabase(loginInfo, 'users','login');  // Check if user exists in the 'users' collection
       if (user) {
           res.json({ success: true, level: user.level });  // Send success response with user's level
       } else {
@@ -34,6 +34,29 @@ app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the i
       }
   } catch (error) {
       console.error('Login error:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+app.post('/signupUser', async (req, res) => { //TODO - Hash and encrypt the input
+  const signupInfo = req.body;  // Get the username and password from the request body
+
+  try {
+      console.log('Signup validation'); //Testing
+      const user = await IsInDatabase(signupInfo, 'users','signup');  // Check if user exists in the 'users' collection
+      if (user) {
+          res.json({ success: false, message:"User already exsit"});  // Send success response with user's level
+      } else {
+          const result=await insertToDataBase(signupInfo,"users");
+          if(result){
+            res.json({ success: true, message:"User added succesfully"});
+          }
+          else{
+            res.json({success:false, message:"Failed to add user"});
+          }
+      }
+  } catch (error) {
+      console.error('Signup error:', error);
       res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });

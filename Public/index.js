@@ -118,9 +118,11 @@ if (loginSubmitButton){
         const result = await response.json();
 
         if (result.success) {
-            console.log('Login successful! User level:', result.level);
+            alert('Login successful! hello' + " " + loginUsername);
+            window.location.href = 'index.html';
             // Redirect to another page or show a success message
-        } else {
+        } 
+        else {
             console.log('Login failed:', result.message);
             alert('Invalid login credentials.');
         }
@@ -130,5 +132,46 @@ if (loginSubmitButton){
     }
   });
 }
+//TODO validate signup input
+const signupSubmitButton = document.getElementById('signupSubmitButton');
+if (signupSubmitButton){
+  // Add an event listener to the signup button
+  console.log("pre event listener");
+  signupSubmitButton.addEventListener('click', async function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    console.log("eventListener.signUp");
+    try {
+      console.log('signUp validation submition');
+        // Get username and password from input fields
+        const signupUsername = document.getElementById('loginUsername').value;
+        const signupPassword = document.getElementById('loginPassword').value;
+
+        // Make the POST request to your server with the signup details
+        const response = await fetch('/signupUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: signupUsername, password: signupPassword })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('signup successful!');
+            alert('signup successful! '+ result.message + " " + "please login");
+        } else {
+          alert('signup failed: ' + result.message);
+            
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        alert('An error occurred during signup.');
+    }
+  });
+}
+
+
+// Ensure that the script runs after the DOM is fully loaded
 
 
