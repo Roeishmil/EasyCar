@@ -21,10 +21,11 @@ app.post('/insert', async (req, res) => {
   }
 });
 
-app.post('/validateLogin', async (req, res) => {
+app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the input
   const loginInfo = req.body;  // Get the username and password from the request body
 
   try {
+      console.log('Login validation'); //Testing
       const user = await IsInDatabase(loginInfo, 'users');  // Check if user exists in the 'users' collection
       if (user) {
           res.json({ success: true, level: user.level });  // Send success response with user's level

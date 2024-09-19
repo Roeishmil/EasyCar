@@ -35,10 +35,11 @@ async function insertData(data) {
   }
 
 // Function to check if user exists in the database
-async function IsInDatabase(loginInfo, collectionName) {
+async function IsInDatabase(inputData, collectionName) {
   try {
       const collection = db.collection(collectionName); // Reference to the 'users' collection
-      const user = await collection.findOne({ username: loginInfo.username, password: loginInfo.password });
+      const user = await collection.findOne({ username: inputData.username, password: inputData.password });
+      console.log('User found',user);
       return user;  // Return the user document if found
   } catch (err) {
       console.error('Error finding user in database', err);

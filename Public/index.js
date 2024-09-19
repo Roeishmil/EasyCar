@@ -1,6 +1,8 @@
 let currentIndex = 0;
 const slideInterval = 6000; // 6 seconds
 
+console.log('index.js loaded');
+
 function showSlide(index) {
     const slides = document.querySelector('.slides');
     const totalSlides = slides.children.length;
@@ -62,8 +64,13 @@ function initMap() {
     });
   }
 
-// Updated event listener for the orders button
-document.getElementById('orders').addEventListener('click', async function(event) {
+
+//Only add listener once orders button is available (when in main page)
+const ordersButton = document.getElementById('orders');
+if (ordersButton){
+  // Updated event listener for the orders button
+
+    orderButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent any default action
   
     const name = "eldar"; // The generic name you want to insert
@@ -84,38 +91,44 @@ document.getElementById('orders').addEventListener('click', async function(event
       console.error('Error:', error);
     }
   });
+}
 
-// Add an event listener to the login button
-document.getElementById('loginSubmit').addEventListener('click', async function(event) {
-  event.preventDefault(); // Prevent default form submission behavior
+//Only add listener once loginsubmit button is available (when in login page)
+const loginSubmitButton = document.getElementById('loginSubmitButton');
+if (loginSubmitButton){
+  // Add an event listener to the login button
+  loginSubmitButton.addEventListener('click', async function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
 
-  try {
-      // Get username and password from input fields
-      const loginUsername = document.getElementById('loginUsername').value;
-      const loginPassword = document.getElementById('loginPassword').value;
+    try {
+      console.log('Login validation submition');
+        // Get username and password from input fields
+        const loginUsername = document.getElementById('loginUsername').value;
+        const loginPassword = document.getElementById('loginPassword').value;
 
-      // Make the POST request to your server with the login details
-      const response = await fetch('/validateLogin', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ username: loginUsername, password: loginPassword })
-      });
+        // Make the POST request to your server with the login details
+        const response = await fetch('/validateLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: loginUsername, password: loginPassword })
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (result.success) {
-          console.log('Login successful! User level:', result.level);
-          // Redirect to another page or show a success message
-      } else {
-          console.log('Login failed:', result.message);
-          alert('Invalid login credentials.');
-      }
-  } catch (error) {
-      console.error('Error:', error.message);
-      alert('An error occurred during login.');
-  }
-});
+        if (result.success) {
+            console.log('Login successful! User level:', result.level);
+            // Redirect to another page or show a success message
+        } else {
+            console.log('Login failed:', result.message);
+            alert('Invalid login credentials.');
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        alert('An error occurred during login.');
+    }
+  });
+}
 
- 
+
