@@ -64,13 +64,50 @@ function initMap() {
     });
   }
 
+  
+// Ensure that the script runs after the DOM is fully loaded 
+window.addEventListener('DOMContentLoaded', function() {
+  // Check if the user is logged in
+  const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+  const username = sessionStorage.getItem('username');
+  const welcomeContainer = document.getElementById('welcomeContainer');
+
+
+  if (isLoggedIn === 'true' && username) {
+      // Change the login button to signout
+      const loginButton = document.getElementById('loginButton');
+      loginButton.textContent = 'Sign Out';
+      
+      // Display the welcome message inside the header
+      if (welcomeContainer) {
+        welcomeContainer.textContent = `Welcome back, ${username}!`;
+    }
+
+      // Add event listener for signout button
+      loginButton.addEventListener('click', function() {
+          // Clear localStorage and redirect to login page
+          sessionStorage.removeItem('isLoggedIn');
+          sessionStorage.removeItem('username');
+          // Clear the welcome message if it's displayed
+          if (welcomeContainer) {
+            welcomeContainer.textContent = '';
+          }
+          
+          alert('Signing out');
+          window.location.href = 'index.html';          
+          document.location.reload();
+      });
+  }
+});
+
+
 
 //Only add listener once orders button is available (when in main page)
 const ordersButton = document.getElementById('orders');
 if (ordersButton){
   // Updated event listener for the orders button
 
-    orderButton.addEventListener('click', async function(event) {
+    ordersButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent any default action
   
     const name = "eldar"; // The generic name you want to insert
@@ -118,6 +155,9 @@ if (loginSubmitButton){
         const result = await response.json();
 
         if (result.success) {
+          // Store the username in localStorage upon successful login
+          sessionStorage.setItem('username', loginUsername);
+          sessionStorage.setItem('isLoggedIn', 'true');
             alert('Login successful! hello' + " " + loginUsername);
             window.location.href = 'index.html';
             // Redirect to another page or show a success message
@@ -171,7 +211,38 @@ if (signupSubmitButton){
   });
 }
 
+// Initializing cart
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+updateCartCount();
 
-// Ensure that the script runs after the DOM is fully loaded
+// Add an event listener to the cart button
+const currentCart = document.getElementById('cartButton')
+if(currentCart){
+    currentCart.addEventListener('click', function() {
+        // Redirect to a cart page (to be created) or show a modal with cart items
+        window.location.href = 'cart.html'; 
+    });
+
+}
 
 
+// Function to add items to the cart
+function addToCart(item) {
+  cart.push(item);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+}
+
+// Function to update the cart count in the header
+function updateCartCount() {
+  const cartCount = cart.length;
+  document.getElementById('cartCount').textContent = cartCount;
+}
+
+// Example of adding an item to the cart
+// This would be called when a user clicks on an "Add to Cart" button for a product
+function handleAddToCart(productId) {
+  // For simplicity, assuming item is an object like {id: 1, name: 'Product 1', price: 100}
+  const item = { id: productId, name: 'Product ' + productId, price: 100 };
+  addToCart(item);
+}
