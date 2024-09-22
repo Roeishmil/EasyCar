@@ -64,7 +64,9 @@ function initMap() {
     });
   }
 
-  
+
+///////////////////////////////////////////////////////DOM JS Logic /////////////////////////////////////////////////////////////////
+
 // Ensure that the script runs after the DOM is fully loaded 
 window.addEventListener('DOMContentLoaded', function() {
   // Check if the user is logged in
@@ -130,6 +132,9 @@ if (ordersButton){
   });
 }
 
+///////////////////////////////////////////////////////Login JS Logic /////////////////////////////////////////////////////////////////
+
+
 //Only add listener once loginsubmit button is available (when in login page)
 const loginSubmitButton = document.getElementById('loginSubmitButton');
 if (loginSubmitButton){
@@ -172,7 +177,10 @@ if (loginSubmitButton){
     }
   });
 }
-//TODO validate signup input
+
+
+
+///////////////////////////////////////////////////////Sign up JS Logic /////////////////////////////////////////////////////////////////
 const signupSubmitButton = document.getElementById('signupSubmitButton');
 if (signupSubmitButton){
   // Add an event listener to the signup button
@@ -211,6 +219,8 @@ if (signupSubmitButton){
   });
 }
 
+///////////////////////////////////////////////////////Cart JS Logic /////////////////////////////////////////////////////////////////
+
 // Initializing cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCartCount();
@@ -245,4 +255,121 @@ function handleAddToCart(productId) {
   // For simplicity, assuming item is an object like {id: 1, name: 'Product 1', price: 100}
   const item = { id: productId, name: 'Product ' + productId, price: 100 };
   addToCart(item);
+}
+
+///////////////////////////////////////////////////////Add Product JS Logic /////////////////////////////////////////////////////////////////
+
+
+// Get modal element and its components
+const modal = document.getElementById('productModal');
+const modalHeader = document.querySelector('.modal-header');
+if (modal && modalHeader) {
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  // Start dragging when mouse is down on modal header
+  modalHeader.addEventListener('mousedown', function (e) {
+    isDragging = true;
+    offsetX = e.offsetX;
+    offsetY = e.offsetY;
+    modal.style.position = 'absolute'; // Ensure absolute positioning
+    modal.style.cursor = 'move'; // Show move cursor
+  });
+
+  // Move modal as mouse moves
+  document.addEventListener('mousemove', function (e) {
+    if (isDragging) {
+      let newLeft = e.pageX - offsetX;
+      let newTop = e.pageY - offsetY;
+
+      // Boundaries for modal (prevent from going off-screen)
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const modalWidth = modal.offsetWidth;
+      const modalHeight = modal.offsetHeight;
+
+      // Ensure modal stays within screen bounds
+      newLeft = Math.max(0, Math.min(newLeft, windowWidth - modalWidth));
+      newTop = Math.max(0, Math.min(newTop, windowHeight - modalHeight));
+
+      modal.style.left = `${newLeft}px`;
+      modal.style.top = `${newTop}px`;
+    }
+  });
+
+  // Stop dragging when mouse is released
+  document.addEventListener('mouseup', function () {
+    isDragging = false;
+    modal.style.cursor = 'default'; // Revert cursor
+  });
+
+  // Button to open modal
+  const btn = document.getElementById('productButton');
+  // Close button in the modal
+  const span = document.getElementsByClassName('close')[0];
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function () {
+    modal.style.display = "block";
+    modal.style.top = "20px"; // Open near the top of the screen
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+  }
+
+  // Close modal when the "x" button is clicked
+  span.onclick = function () {
+    modal.style.display = "none";
+  }
+
+  // Close modal if user clicks outside of it (only if not dragging)
+  window.onclick = function (event) {
+    if (event.target == modal && !isDragging) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+
+
+
+
+// Handle Add Product form submission
+const productForm = document.getElementById('productForm');
+if(productForm){
+  console.log('Before adding event listener to product button');
+  productForm.addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the form from submitting the default way
+
+    // Gather input values from the form
+    const productData = {
+      name: document.getElementById('productName').value,
+      price: document.getElementById('productPrice').value,
+      description: document.getElementById('productDescription').value,
+      manufacturer: document.getElementById('productManufacturer').value,
+      quantity: document.getElementById('productQuantity').value,
+      image: document.getElementById('productImage').value
+    };
+
+    try {
+      // Make a POST request to the server to store the product in MongoDB
+      const response = await fetch('/addProduct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Product added successfully!');
+        modal.style.display = "none"; // Close the modal
+      } else {
+        alert('Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
 }

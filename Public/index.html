@@ -11,7 +11,8 @@
     <header>
         <div id="logo"><img src="assets/logo.jpg" width="100" height="90"></div>  
         <div id="welcomeContainer"></div>
-        <button class="button" id="loginButton" type="button"  onclick="window.location.href='login.html'">Login</button>
+        <button class="button" id="loginButton" type="button"  onclick="window.location.href='login.html'">Login</button>        
+        <button id="productButton">Add New Product</button> <!-- Product Button to trigger the modal -->
         <button class="button" type="button">Current Stock</button>
         <button class="button" id="orders" type="button" onclick="window.location.href = 'orders.html'">My orders</button>
 
@@ -25,6 +26,43 @@
         <div class="submit">
             <input type="text" id="searchBar" placeholder="⌕ Search" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
         </div>
+
+
+                <!-- Modal structure for accepting product details -->
+        <div id="productModal" class="modal">
+            <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Add Product</h2>
+            </div>
+            
+            <!-- Form for entering product details -->
+            <form id="productForm">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" name="productName" required><br>
+        
+                <label for="productDescription">Description:</label>
+                <textarea id="productDescription" name="productDescription" required></textarea><br>
+        
+                <label for="productPrice">Price:</label>
+                <input type="number" id="productPrice" name="productPrice" required><br>
+        
+                <label for="productQuantity">Quantity:</label>
+                <input type="number" id="productQuantity" name="productQuantity" required><br>
+        
+                <label for="productManufacturer">Manufacturer:</label>
+                <input type="text" id="productManufacturer" name="productManufacturer" required><br>
+        
+                <label for="productImage">Image URL:</label>
+                <input type="text" id="productImage" name="productImage" required><br>
+                
+                <button type="submit">Submit</button>
+            </form>
+            </div>
+        </div>
+  
+
+
     </header>
     <div class="slider">
         <div class="slides">

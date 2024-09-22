@@ -8,6 +8,9 @@ app.use(bodyParser.json());
 //this reffers to the public folder which we keep in the HTML/js files
 app.use(express.static('public'));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // API route to handle data insertion
 app.post('/insert', async (req, res) => {
   const data = req.body;  // Get data from the request body
@@ -60,6 +63,38 @@ app.post('/signupUser', async (req, res) => { //TODO - Hash and encrypt the inpu
       res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+
+
+app.post('/addProduct', async (req, res) => {
+  const { name, price, description, manufacturer, quantity, image } = req.body; //Copy fields from input to variables
+
+  try {
+
+    const newProduct = {
+      name: name,
+      price: price,
+      description: description,
+      manufacturer: manufacturer,
+      quantity: quantity,
+      image: image,
+      createdAt: new Date(), //Add timestamp for creation
+      updatedAt: new Date()
+    };
+  
+    const result=await insertToDataBase(newProduct,"products");; // Save the product to MongoDB
+    
+
+    if(result){
+      res.json({ success: true, message:"Product added succesfully"});
+    }
+    else{
+      res.json({success:false, message:"Failed to add product"});
+    }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+});
+
 
 // Start the server
 app.listen(3000, () => {
