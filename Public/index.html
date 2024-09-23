@@ -13,7 +13,7 @@
         <div id="welcomeContainer"></div>
         <button class="button" id="loginButton" type="button"  onclick="window.location.href='login.html'">Login</button>        
         <button id="productButton">Add New Product</button> <!-- Product Button to trigger the modal -->
-        <button class="button" type="button">Current Stock</button>
+        <button id="currentStock" class="button" type="button" onclick="window.location.href='currentStock.html'">Current Stock</button>
         <button class="button" id="orders" type="button" onclick="window.location.href = 'orders.html'">My orders</button>
 
         <div class="cart-container-index">
@@ -40,7 +40,7 @@
             <form id="productForm">
                 <label for="productName">Product Name:</label>
                 <input type="text" id="productName" name="productName" required><br>
-        
+
                 <label for="productDescription">Description:</label>
                 <textarea id="productDescription" name="productDescription" required></textarea><br>
         

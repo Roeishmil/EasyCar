@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase,insertToDataBase} = require('./database/database'); // catching from database.js the function
-
+const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase } = require('./database/database'); // catching from database.js the function
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //this reffers to the public folder which we keep in the HTML/js files
@@ -23,6 +24,7 @@ app.post('/insert', async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to insert data' });
   }
 });
+
 
 app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the input
   const loginInfo = req.body;  // Get the username and password from the request body
@@ -85,6 +87,8 @@ app.post('/addProduct', async (req, res) => {
     
 
     if(result){
+      fetchCars(); // Fetch and display the updated car list
+      modal.style.display = "none"; // Close the modal
       res.json({ success: true, message:"Product added succesfully"});
     }
     else{
@@ -95,6 +99,16 @@ app.post('/addProduct', async (req, res) => {
   }
 });
 
+app.post('/getCurrentStock', async (req, res) => {
+  try {
+      console.log('get car app.js 1');
+      const cars = await getCurrentStockFromDatabase(); // Call to database.js to fetch cars
+      res.json({ success: true, data: cars });
+      console.log('get car app.js 2');
+  } catch (error) {
+      res.status(500).json({ success: false, message: 'Failed to fetch cars', error: error.message });
+  }
+});
 
 // Start the server
 app.listen(3000, () => {

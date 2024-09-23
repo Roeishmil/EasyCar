@@ -1,8 +1,6 @@
 let currentIndex = 0;
 const slideInterval = 6000; // 6 seconds
 
-console.log('index.js loaded');
-
 function showSlide(index) {
     const slides = document.querySelector('.slides');
     const totalSlides = slides.children.length;
@@ -40,12 +38,11 @@ function startProgressBar() {
     }, 50); // Small delay to ensure reset is applied
 }
 
-// Auto-slide
+  // Auto-slide
 setInterval(() => { changeSlide(1); }, slideInterval);
 
 // Start the initial progress bar animation
 startProgressBar();
-
 
 //JavaScript to initialize the map
 // Initialize and add the map
@@ -69,6 +66,7 @@ function initMap() {
 
 // Ensure that the script runs after the DOM is fully loaded 
 window.addEventListener('DOMContentLoaded', function() {
+
   // Check if the user is logged in
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
   const username = sessionStorage.getItem('username');
@@ -246,7 +244,9 @@ function addToCart(item) {
 // Function to update the cart count in the header
 function updateCartCount() {
   const cartCount = cart.length;
-  document.getElementById('cartCount').textContent = cartCount;
+  if(cartCount){
+    document.getElementById('cartCount').textContent = cartCount;
+  }
 }
 
 // Example of adding an item to the cart
@@ -329,15 +329,10 @@ if (modal && modalHeader) {
   }
 }
 
-
-
-
-
 // Handle Add Product form submission
 const productForm = document.getElementById('productForm');
 if(productForm){
-  console.log('Before adding event listener to product button');
-  productForm.addEventListener('submit', async function(event) {
+    productForm.addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the form from submitting the default way
 
     // Gather input values from the form
@@ -364,6 +359,7 @@ if(productForm){
 
       if (result.success) {
         alert('Product added successfully!');
+        fetchCars();
         modal.style.display = "none"; // Close the modal
       } else {
         alert('Failed to add product');
@@ -373,3 +369,8 @@ if(productForm){
     }
   });
 }
+
+
+
+
+
