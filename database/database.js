@@ -72,10 +72,8 @@ async function insertToDataBase(data,collectionName) {
 // Function to get all cars from the 'products' collection
 async function getCurrentStockFromDatabase() {
   try {
-    console.log('get car database.js');
       const collection = db.collection('products'); // Assuming the collection is 'products'
       const cars = await collection.find({}).toArray(); // Fetch all documents (cars)
-      console.log(cars);
       return cars;
   } catch (err) {
       console.error('Failed to fetch cars', err);

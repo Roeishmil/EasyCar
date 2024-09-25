@@ -338,6 +338,8 @@ if(productForm){
     // Gather input values from the form
     const productData = {
       name: document.getElementById('productName').value,
+      year: document.getElementById('productYear').value,
+      mileage: document.getElementById('productMileage').value,
       price: document.getElementById('productPrice').value,
       description: document.getElementById('productDescription').value,
       manufacturer: document.getElementById('productManufacturer').value,
@@ -357,12 +359,12 @@ if(productForm){
 
       const result = await response.json();
 
-      if (result.success) {
+      if (result) {
         alert('Product added successfully!');
         fetchCars();
         modal.style.display = "none"; // Close the modal
       } else {
-        alert('Failed to add product');
+        alert('Failed to add product frontend');
       }
     } catch (error) {
       console.error('Error:', error);

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Details</title>
+    <style>
+        /* Body and Layout Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .car-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        .car-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .car-container h2 {
+            font-size: 2.5em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .car-details {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .car-details p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #007BFF;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .contact {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .car-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .car-container h2 {
+                font-size: 2em;
+            }
+
+            .car-details p {
+                font-size: 1.1em;
+            }
+
+            .price {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="car-container">
+        <img id="carImage" src="" alt="Car Image">
+        <h2 id="carName"></h2>
+        <div class="car-details">
+            <p><strong>Make:</strong> <span id="carManufacturer"></span></p>
+            <p><strong>Year:</strong> <span id="carYear"></span></p>
+            <p><strong>Mileage:</strong> <span id="carMileage"></span></p>
+            <p><strong>Description:</strong> <span id="carDescription"></span></p>
+            <p><strong>Quantity Available:</strong> <span id="carQuantity"></span></p>
+            <p class="price"><strong>Price:</strong> $<span id="carPrice"></span></p>
+            
+        </div>
+        <div class="contact">
+            <button id="addItemToCart" onclick="addToCart()">Add To Cart</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to extract query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                name: params.get('name'),
+                manufacturer: params.get('manufacturer'),
+                year: params.get('year'),
+                mileage: params.get('mileage'),
+                price: params.get('price'),
+                description: params.get('description'),
+                quantity: params.get('quantity'),
+                image: params.get('image')
+            };
+        }
+
+        // Populate the car details from the query parameters
+        const carDetails = getQueryParams();
+
+        document.getElementById('carName').textContent = carDetails.name;
+        document.getElementById('carManufacturer').textContent = carDetails.manufacturer;
+        document.getElementById('carYear').textContent = carDetails.year;
+        document.getElementById('carMileage').textContent = carDetails.mileage;
+        document.getElementById('carPrice').textContent = carDetails.price;
+        document.getElementById('carDescription').textContent = carDetails.description;
+        document.getElementById('carQuantity').textContent = carDetails.quantity;
+        document.getElementById('carImage').src = carDetails.image;
+        document.getElementById('carImage').alt = carDetails.name;
+
+        // Add car to the cart and store in localStorage
+        function addToCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Create a new car object to add to the cart
+            const car = {
+                id: Date.now(), // Create a unique ID based on timestamp
+                name: carDetails.name,
+                manufacturer: carDetails.manufacturer,
+                year: carDetails.year,
+                mileage: carDetails.mileage,
+                price: carDetails.price,
+                description: carDetails.description,
+                quantity: carDetails.quantity,
+                image: carDetails.image
+            };
+
+            // Add the car to the cart array
+            cart.push(car);
+
+            // Save the updated cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            alert(`${car.name} has been added to your cart.`);
+        }
+    </script>
+</body>
+</html>

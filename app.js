@@ -68,12 +68,14 @@ app.post('/signupUser', async (req, res) => { //TODO - Hash and encrypt the inpu
 
 
 app.post('/addProduct', async (req, res) => {
-  const { name, price, description, manufacturer, quantity, image } = req.body; //Copy fields from input to variables
+  const { name, year, mileage, price, description, manufacturer, quantity, image } = req.body; //Copy fields from input to variables
 
   try {
 
     const newProduct = {
       name: name,
+      year: year,
+      mileage: mileage,
       price: price,
       description: description,
       manufacturer: manufacturer,
@@ -83,7 +85,7 @@ app.post('/addProduct', async (req, res) => {
       updatedAt: new Date()
     };
   
-    const result=await insertToDataBase(newProduct,"products");; // Save the product to MongoDB
+    const result = await insertToDataBase(newProduct,"products"); // Save the product to MongoDB
     
 
     if(result){
@@ -92,7 +94,7 @@ app.post('/addProduct', async (req, res) => {
       res.json({ success: true, message:"Product added succesfully"});
     }
     else{
-      res.json({success:false, message:"Failed to add product"});
+      res.json({success:false, message:"Failed to add product on server side"});
     }
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -101,10 +103,8 @@ app.post('/addProduct', async (req, res) => {
 
 app.post('/getCurrentStock', async (req, res) => {
   try {
-      console.log('get car app.js 1');
       const cars = await getCurrentStockFromDatabase(); // Call to database.js to fetch cars
       res.json({ success: true, data: cars });
-      console.log('get car app.js 2');
   } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to fetch cars', error: error.message });
   }

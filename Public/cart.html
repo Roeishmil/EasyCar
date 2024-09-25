@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body id = 'cart_body'>
+<body id='cart_body'>
     <button type="button" id="cart_to_index_btn"  onclick="window.location.href='index.html'">Return to main page</button>
     <div class="cart-container">
         <h1 id="cart_h1">Your Cart</h1>
@@ -21,11 +21,12 @@
     <script>
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const cartItemsContainer = document.getElementById('cartItems');
-        let totalPrice = 0;
-
+        
+        // Check if the cart is empty
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
         } else {
+            // Render each item in the cart
             cart.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.classList.add('cart-item');
@@ -40,17 +41,25 @@
                         </button>
                     </div>`;
                 cartItemsContainer.appendChild(itemDiv);
-                totalPrice += item.price;
             });
-            document.getElementById('totalPrice').textContent = `Total: $${totalPrice}`;
+
+            // Calculate the total price using reduce()
+            const totalPrice = cart.reduce((total, item) => {
+                return total + parseFloat(item.price);  // Ensure price is treated as a number
+            }, 0);
+
+            // Update the total price display
+            document.getElementById('totalPrice').textContent = `Total: $${totalPrice.toFixed(2)}`;
         }
 
+        // Remove item from the cart and update localStorage
         function removeFromCart(itemId) {
             const updatedCart = cart.filter(item => item.id !== itemId);
             localStorage.setItem('cart', JSON.stringify(updatedCart));
-            location.reload(); // Reload page to update cart
+            location.reload();  // Reload page to update cart
         }
 
+        // Simulate checkout process
         function checkout() {
             if (cart.length === 0) {
                 alert("Your cart is empty.");

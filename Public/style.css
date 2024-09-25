@@ -266,7 +266,7 @@ label {
     font-size: 1.2em; /* Adjust font size */
     padding: 10px; /* Adjust padding if needed */
     position:relative;
-    left:-750px;
+    left:0px;
 }
 
 .cart-container-index {
