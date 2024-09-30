@@ -52,21 +52,52 @@
             document.getElementById('totalPrice').textContent = `Total: $${totalPrice.toFixed(2)}`;
         }
 
+        // Remove all items from the cart and update localStorage
+        function clearCart() {
+            localStorage.setItem('cartCount', 0);
+            localStorage.removeItem('cart');  // Remove the 'cart' from localStorage
+            location.reload();  // Reload the page to update the cart display
+        }
+
         // Remove item from the cart and update localStorage
         function removeFromCart(itemId) {
             const updatedCart = cart.filter(item => item.id !== itemId);
+            counter = localStorage.getItem('cartCount');
+            counter--;
+            localStorage.setItem('cartCount',counter);
             localStorage.setItem('cart', JSON.stringify(updatedCart));
             location.reload();  // Reload page to update cart
         }
 
         // Simulate checkout process
-        function checkout() {
-            if (cart.length === 0) {
+            async function checkout() {
+            const items = JSON.parse(localStorage.getItem('cart')) || [];
+            const username = sessionStorage.getItem('username');
+            if (items.length === 0) {
                 alert("Your cart is empty.");
                 return;
             }
-            alert('Proceeding to checkout... (Not implemented)');
+
+            const response = await fetch('/processOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                items: items
+            })
+        });
+
+        const result = await response.json();
+        if(result){
+            clearCart();
+            alert('Order submitted successfully');
         }
+        else{
+            alert('Order submition failed')
+        }
+    }
     </script>
 </body>
 </html>

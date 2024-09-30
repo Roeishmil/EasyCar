@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase } = require('./database/database'); // catching from database.js the function
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -108,6 +108,33 @@ app.post('/getCurrentStock', async (req, res) => {
   } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to fetch cars', error: error.message });
   }
+});
+
+app.post('/processOrder', async (req, res) => {
+  const { username , items } = req.body;
+    console.log(items);
+
+    // TO-DO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! make it so two identicak items will remove the amount from the quantity
+
+    // Apply updateDataBase for each item in the items array
+    items.forEach((item) => {    
+    let query = {name: item.name };
+    let quantity = parseInt(item.quantity) - 1;
+    let newVal = { $set: {quantity: quantity}};
+    updateDataBase(query, newVal, 'products');  // Call the updateDataBase function for each item
+    });
+    
+  try {
+    const order = {
+      username: username,
+      items: items,
+      createdAt: new Date() //Add timestamp for creation
+    }
+    const result = await insertToDataBase(order, 'orders');
+    res.json({ success: result });
+} catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to process order', error: error.message });
+}
 });
 
 // Start the server

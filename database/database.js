@@ -22,7 +22,7 @@ async function connectToMongoDB() {
 //start the connection to the database
 connectToMongoDB();
 
-// Function to insert data
+// Function to insert data -- may need to be deleted!
 async function insertData(data) {
     try {
       const collection = db.collection('orders'); // collection name
@@ -58,6 +58,17 @@ async function IsInDatabase(inputData, collectionName,Type) {
   }
 }
 
+async function updateDataBase(query, newvalues, collectionName) {
+  try {
+    const collection = db.collection(collectionName); // Reference to the 'users' collection
+    const result = await collection.updateOne(query, newvalues);
+    return result;
+  } catch (err) {
+    console.error('Failed to insert data', err);
+    throw err;
+  }
+}
+
 async function insertToDataBase(data,collectionName) {
   try {
     const collection = db.collection(collectionName); // Reference to the 'users' collection
@@ -81,4 +92,4 @@ async function getCurrentStockFromDatabase() {
   }
 }
 
-module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase};  // Exporting functions
+module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase};  // Exporting functions

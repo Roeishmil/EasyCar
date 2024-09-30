@@ -115,9 +115,10 @@
         </div>
         <div class="contact">
             <button id="addItemToCart" onclick="addToCart()">Add To Cart</button>
+            <button id="goToCart"onclick="window.location.href = 'cart.html'">Go to cart</button>
         </div>
     </div>
-
+    <script src="index.js"></script>
     <script>
         // Function to extract query parameters
         function getQueryParams() {
@@ -149,6 +150,7 @@
 
         // Add car to the cart and store in localStorage
         function addToCart() {
+            
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             // Create a new car object to add to the cart
@@ -166,7 +168,14 @@
 
             // Add the car to the cart array
             cart.push(car);
-
+            let counter = localStorage.getItem('cartCount');
+            if(counter){
+                counter++;
+                localStorage.setItem('cartCount',counter);
+            }
+            else{
+                localStorage.setItem('cartCount', 1);
+            }
             // Save the updated cart to localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
 

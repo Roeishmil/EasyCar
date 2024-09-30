@@ -221,11 +221,18 @@ if (signupSubmitButton){
 
 // Initializing cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-updateCartCount();
 
 // Add an event listener to the cart button
 const currentCart = document.getElementById('cartButton')
 if(currentCart){
+    counter = localStorage.getItem('cartCount');
+    if(counter){
+      document.getElementById('cartCount').textContent = counter;
+    }
+    else{
+      document.getElementById('cartCount').textContent = 0;
+    }
+     
     currentCart.addEventListener('click', function() {
         // Redirect to a cart page (to be created) or show a modal with cart items
         window.location.href = 'cart.html'; 
@@ -233,29 +240,6 @@ if(currentCart){
 
 }
 
-
-// Function to add items to the cart
-function addToCart(item) {
-  cart.push(item);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-}
-
-// Function to update the cart count in the header
-function updateCartCount() {
-  const cartCount = cart.length;
-  if(cartCount){
-    document.getElementById('cartCount').textContent = cartCount;
-  }
-}
-
-// Example of adding an item to the cart
-// This would be called when a user clicks on an "Add to Cart" button for a product
-function handleAddToCart(productId) {
-  // For simplicity, assuming item is an object like {id: 1, name: 'Product 1', price: 100}
-  const item = { id: productId, name: 'Product ' + productId, price: 100 };
-  addToCart(item);
-}
 
 ///////////////////////////////////////////////////////Add Product JS Logic /////////////////////////////////////////////////////////////////
 
