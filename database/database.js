@@ -84,7 +84,7 @@ async function insertToDataBase(data,collectionName) {
 async function getCurrentStockFromDatabase() {
   try {
       const collection = db.collection('products'); // Assuming the collection is 'products'
-      const cars = await collection.find({}).toArray(); // Fetch all documents (cars)
+      const cars = await collection.find({quantity:{$gt: 0}}).toArray(); // Fetch all documents (cars)
       return cars;
   } catch (err) {
       console.error('Failed to fetch cars', err);

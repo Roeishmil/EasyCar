@@ -78,6 +78,11 @@
                 return;
             }
 
+            if(!username){
+                alert('Please log in!');
+                window.location.href = 'login.html';
+                return;
+            }
             const response = await fetch('/processOrder', {
             method: 'POST',
             headers: {

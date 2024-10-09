@@ -70,10 +70,18 @@ window.addEventListener('DOMContentLoaded', function() {
   // Check if the user is logged in
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
   const username = sessionStorage.getItem('username');
+  const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // will be true only if isAdmin
   const welcomeContainer = document.getElementById('welcomeContainer');
 
+    if(isAdmin){
+      document.getElementById('productButton').style.display = 'block';
+    }else{
+      document.getElementById('productButton').style.display = 'none';
+    }
+  
 
   if (isLoggedIn === 'true' && username) {
+
       // Change the login button to signout
       const loginButton = document.getElementById('loginButton');
       loginButton.textContent = 'Sign Out';
@@ -88,10 +96,12 @@ window.addEventListener('DOMContentLoaded', function() {
           // Clear localStorage and redirect to login page
           sessionStorage.removeItem('isLoggedIn');
           sessionStorage.removeItem('username');
+          sessionStorage.removeItem('isAdmin')
           // Clear the welcome message if it's displayed
           if (welcomeContainer) {
             welcomeContainer.textContent = '';
           }
+          
           
           alert('Signing out');
           window.location.href = 'index.html';          
@@ -154,13 +164,14 @@ if (loginSubmitButton){
             },
             body: JSON.stringify({ username: loginUsername, password: loginPassword })
         });
-
+        
         const result = await response.json();
 
         if (result.success) {
           // Store the username in localStorage upon successful login
           sessionStorage.setItem('username', loginUsername);
           sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('isAdmin', result.isAdmin);
             alert('Login successful! hello' + " " + loginUsername);
             window.location.href = 'index.html';
             // Redirect to another page or show a success message
@@ -189,8 +200,13 @@ if (signupSubmitButton){
     try {
       console.log('signUp validation submition');
         // Get username and password from input fields
-        const signupUsername = document.getElementById('loginUsername').value;
-        const signupPassword = document.getElementById('loginPassword').value;
+        const signupUsername = document.getElementById('loginUsername').value.trim();
+        const signupPassword = document.getElementById('loginPassword').value.trim();
+        if(signupUsername === "" || signupPassword === ""){ // signup validation for empty input
+          event.preventDefault();
+          alert("Please fill in all fields");
+          return;
+        }
 
         // Make the POST request to your server with the signup details
         const response = await fetch('/signupUser', {
@@ -198,7 +214,7 @@ if (signupSubmitButton){
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username: signupUsername, password: signupPassword })
+            body: JSON.stringify({ username: signupUsername, password: signupPassword, isAdmin: false })
         });
 
         const result = await response.json();
