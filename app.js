@@ -33,7 +33,7 @@ app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the i
       console.log('Login validation'); //Testing
       const user = await IsInDatabase(loginInfo, 'users','login');  // Check if user exists in the 'users' collection
       if (user) {
-          res.json({ success: true, level: user.level });  // Send success response with user's level
+          res.json({ success: true, isAdmin: user.isAdmin });  // Send success response with user's level
       } else {
           res.status(401).json({ success: false, message: 'Invalid username or password' });
       }
@@ -74,12 +74,12 @@ app.post('/addProduct', async (req, res) => {
 
     const newProduct = {
       name: name,
-      year: year,
-      mileage: mileage,
-      price: price,
+      year: parseInt(year),
+      mileage: parseInt(mileage),
+      price: parseInt(price),
       description: description,
       manufacturer: manufacturer,
-      quantity: quantity,
+      quantity: parseInt(quantity),
       image: image,
       createdAt: new Date(), //Add timestamp for creation
       updatedAt: new Date()
