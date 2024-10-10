@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername } = require('./database/database'); // catching from database.js the function
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -132,6 +132,18 @@ app.post('/processOrder', async (req, res) => {
     }
     const result = await insertToDataBase(order, 'orders');
     res.json({ success: result });
+} catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to process order', error: error.message });
+}
+});
+
+app.post('/getOrdersByUser', async (req, res) => {
+  const { currentUser } = req.body;
+try{
+    
+    const orders = await findDataByUsername(currentUser,'orders');
+    console.log(orders);
+    res.json(orders);
 } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to process order', error: error.message });
 }

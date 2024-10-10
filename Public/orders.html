@@ -1,12 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>orders</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders</title>
+  <style>
+    /* Optional styles for better presentation */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    ul {
+      list-style-type: none; /* Remove bullet points */
+      padding: 0; /* Remove padding */
+    }
+    li {
+      margin-bottom: 10px; /* Spacing between items */
+      padding: 10px;
+      border: 1px solid #ccc; /* Border for each order */
+      border-radius: 5px; /* Rounded corners */
+      background-color: #f9f9f9; /* Light background for contrast */
+    }
+    strong {
+      display: block; /* Make the strong tag block-level for better visibility */
+      margin-bottom: 5px; /* Space below the strong text */
+    }
+  </style>
 </head>
 <body>
-    <h1>Orders</h1>
+  <h1>Your Orders</h1>
+  <ul id="ordersList"></ul>
+
+  <script>
+    // Retrieve the orders from sessionStorage
+    const userOrders = JSON.parse(sessionStorage.getItem('userOrders')) || [];
+    const ordersList = document.getElementById('ordersList');
+
+    
+    function buildOrderInfo(order, orderListItem) {
+      // Display the Order Number using the _id field
+      const orderNumberItem = document.createElement('li');
+      orderNumberItem.innerHTML = `<strong>Order Number: ${order._id}</strong>`;
+      orderListItem.appendChild(orderNumberItem);
+
+      // Display the createdAt field
+      const createdAtItem = document.createElement('li');
+      createdAtItem.textContent = `Order Date: ${new Date(order.createdAt.$date).toLocaleString()}`;
+      orderListItem.appendChild(createdAtItem);
+
+      // Display the username field
+      const usernameItem = document.createElement('li');
+      usernameItem.textContent = `Username: ${order.username}`;
+      orderListItem.appendChild(usernameItem);
+
+      // Display specific fields from the items array
+      if (Array.isArray(order.items)) {
+        const itemsList = document.createElement('ul');
+        order.items.forEach((item, itemIndex) => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `
+            <strong>Item ${itemIndex + 1}</strong>:
+            <ul>
+              <li>Name: ${item.name}</li>
+              <li>Manufacturer: ${item.manufacturer}</li>
+              <li>Year: ${item.year}</li>
+              <li>Price: ${item.price}</li>
+              <li>Description: ${item.description}</li>
+            </ul>
+          `;
+          itemsList.appendChild(listItem);
+        });
+        orderListItem.appendChild(itemsList);
+      }
+    }
+
+    if (userOrders.length > 0) {
+      userOrders.forEach(order => {
+        const orderListItem = document.createElement('li');
+        buildOrderInfo(order, orderListItem); // Render the specific fields of each order
+        ordersList.appendChild(orderListItem);
+      });
+    } else {
+      ordersList.innerHTML = '<li>No orders found.</li>';
+    }
+  </script>
 </body>
 </html>
