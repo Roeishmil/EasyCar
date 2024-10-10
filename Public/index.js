@@ -97,6 +97,7 @@ window.addEventListener('DOMContentLoaded', function() {
           sessionStorage.removeItem('isLoggedIn');
           sessionStorage.removeItem('username');
           sessionStorage.removeItem('isAdmin')
+          sessionStorage.removeItem('userOrders')
           // Clear the welcome message if it's displayed
           if (welcomeContainer) {
             welcomeContainer.textContent = '';
@@ -119,20 +120,29 @@ if (ordersButton){
 
     ordersButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent any default action
-  
-    const name = "eldar"; // The generic name you want to insert
-  
+    
+    let currentUser = sessionStorage.getItem('username');
+    if(!currentUser){
+      alert('Please login to view your orders');
+      window.location.href='login.html';
+      return;
+    }
+
+      
     try {
       // Send the data to the server using fetch
-      const response = await fetch('/insert', {
+      const response = await fetch('/getOrdersByUser', {
         method: 'POST', //means that data will be sent in the body of the request to the server
         headers: { //the data being sent is in JSON format
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name }) // Send the name in the body
+        body: JSON.stringify({ currentUser }) // Send the name in the body
       });
   
       const result = await response.json(); //converts the response from the server (which is also in JSON format) back into a JavaScript object for further use.
+      console.log('Orders fetched:', result)
+      sessionStorage.setItem('userOrders',JSON.stringify(result));
+      window.location.href = 'orders.html';
   
     } catch (error) {
       console.error('Error:', error);

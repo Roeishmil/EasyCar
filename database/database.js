@@ -92,4 +92,17 @@ async function getCurrentStockFromDatabase() {
   }
 }
 
-module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase};  // Exporting functions
+// Function to get all cars from the 'products' collection
+async function findDataByUsername(currentUser ,collectionName) {
+  try {
+      const collection = db.collection(collectionName); 
+      const dataOfUser = await collection.find({ username : currentUser }).toArray(); // Fetch all documents
+      return dataOfUser;
+  
+  } catch (err) {
+      console.error('Failed to fetch userData', err);
+      throw err;
+  }
+}
+
+module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername};  // Exporting functions
