@@ -64,7 +64,7 @@ async function updateDataBase(query, newvalues, collectionName) {
     const result = await collection.updateOne(query, newvalues);
     return result;
   } catch (err) {
-    console.error('Failed to insert data', err);
+    console.error('Failed to update data', err);
     throw err;
   }
 }
@@ -105,4 +105,30 @@ async function findDataByUsername(currentUser ,collectionName) {
   }
 }
 
-module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername};  // Exporting functions
+// Function to get all users
+async function getAllUsers() {
+  try {
+      const users = await db.collection('users').find().toArray();
+      return users;
+  
+  } catch (err) {
+      console.error('Failed to fetch userData', err);
+      throw err;
+  }
+}
+
+// Function to delete an entry
+async function deleteEntry( deletionEntry, collectionName ) {
+  try {
+      console.log(deletionEntry);
+      const result = await db.collection(collectionName).deleteOne({username: deletionEntry});
+      return result;
+  
+  } catch (err) {
+      console.error('Failed to delete entry', err);
+      throw err;
+  }
+}
+
+module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry};
+  // Exporting functions

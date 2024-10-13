@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry } = require('./database/database'); // catching from database.js the function
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -147,6 +148,37 @@ try{
 } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to process order', error: error.message });
 }
+});
+
+app.post('/getUsers', async (req, res) => {
+  try {
+    const users = await getAllUsers(); //get all users
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+});
+
+app.post('/deleteEntry', async (req, res) => {
+  try {
+    const { deletionEntry } = req.body;
+    const result = await deleteEntry(deletionEntry,'users'); //Delete one entry
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting entry' });
+  }
+});
+
+app.post('/updateUser', async (req, res) => {
+  try {
+    const { username , newIsAdmin } = req.body;
+    let query = { username: username };
+    let newVal = { $set: {isAdmin: newIsAdmin}};
+    const result = await updateDataBase(query, newVal, 'users');  // Call the updateDataBase function for this user
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating entry' });
+  }
 });
 
 // Start the server

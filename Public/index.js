@@ -75,6 +75,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     if(isAdmin){
       document.getElementById('productButton').style.display = 'block';
+      this.document.getElementById('manageUsersButton').style.display = 'block';
     }else{
       document.getElementById('productButton').style.display = 'none';
     }
@@ -242,6 +243,7 @@ if (signupSubmitButton){
     }
   });
 }
+
 
 ///////////////////////////////////////////////////////Cart JS Logic /////////////////////////////////////////////////////////////////
 
