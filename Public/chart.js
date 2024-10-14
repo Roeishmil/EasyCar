@@ -1,63 +1,58 @@
-const salesData = [
-    { month: 'January', sales: 200 },
-    { month: 'February', sales: 450 },
-    { month: 'March', sales: 300 },
-    { month: 'April', sales: 600 },
-    { month: 'May', sales: 500 },
-    { month: 'June', sales: 700 }
-];
+const apiUrl = '/getCurrentStock'; // כתובת ה-API שלך
 
+// קבלת נתונים מה-API
+d3.json(apiUrl).then(response => {
+    if (response.success) {
+        const data = response.data; // הנתונים שהתקבלו מהשרת
 
-const data = [
-    { month: 'January', sales: 200 },
-    { month: 'February', sales: 450 },
-    { month: 'March', sales: 300 },
-    { month: 'April', sales: 600 },
-    { month: 'May', sales: 500 },
-    { month: 'June', sales: 700 }
-];
+        // הגדרות גודל הגרף
+        const width = 600;
+        const height = 400;
+        const margin = { top: 20, right: 30, bottom: 40, left: 40 };
 
-// Set up dimensions
-const margin = { top: 30, right: 30, bottom: 70, left: 60 };
-const width = 500 - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
+        // יצירת קנבס SVG
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-// Create an SVG container
-const svg = d3.select("#chart")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+        // הגדרת סקלת X לפי שמות המוצרים
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.name)) // שימוש בשם המוצר כערך ציר ה-X
+            .range([margin.left, width - margin.right])
+            .padding(0.1);
 
-// X axis: scale and draw
-const x = d3.scaleBand()
-  .range([0, width])
-  .domain(data.map(d => d.month))
-  .padding(0.2);
+        // הגדרת סקלת Y לפי כמות המוצרים
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.quantity)]).nice()
+            .range([height - margin.bottom, margin.top]);
 
-svg.append("g")
-  .attr("transform", `translate(0, ${height})`)
-  .call(d3.axisBottom(x))
-  .selectAll("text")
-  .attr("transform", "translate(-10,0)rotate(-45)")
-  .style("text-anchor", "end");
+        // הוספת עמודות לגרף
+        svg.append("g")
+            .selectAll("rect")
+            .data(data)
+            .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.quantity)) // גובה העמודה לפי כמות
+                .attr("height", d => y(0) - y(d.quantity))
+                .attr("width", x.bandwidth());
 
-// Y axis: scale and draw
-const y = d3.scaleLinear()
-  .domain([0, d3.max(data, d => d.sales)])
-  .range([height, 0]);
+        // הוספת ציר X
+        svg.append("g")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x))
+            .attr("class", "axis");
 
-svg.append("g")
-  .call(d3.axisLeft(y));
+        // הוספת ציר Y
+        svg.append("g")
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(y))
+            .attr("class", "axis");
 
-// Bars
-svg.selectAll("bars")
-  .data(data)
-  .enter()
-  .append("rect")
-    .attr("x", d => x(d.month))
-    .attr("y", d => y(d.sales))
-    .attr("width", x.bandwidth())
-    .attr("height", d => height - y(d.sales))
-    .attr("class", "bar");
+    } else {
+        console.error('Failed to fetch data:', response.message);
+    }
+}).catch(error => {
+    console.error('Error fetching data:', error);
+});

@@ -45,10 +45,9 @@ setInterval(() => { changeSlide(1); }, slideInterval);
 startProgressBar();
 
 //JavaScript to initialize the map
-// Initialize and add the map
 function initMap() {
     // The location
-    const location = { lat: 31.9669606, lng: 34.7650917 }; // Example coordinates
+    const location = { lat: 31.9669606, lng: 34.7650917 }; //  coordinates
     // The map, centered at location
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 8,
