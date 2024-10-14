@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="manageUsers.css"/>
+  <title>Manage Users</title>
+</head>
+<body>
+  <h1>Manage Users</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>isAdmin</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="usersTableBody">
+      <!-- Rows will be inserted here by JS -->
+    </tbody>
+  </table>
+
+  <script>
+
+ //This function will fetch ALL the users - we will call it when the page loads   
+ async function fetchUsers() {
+  const response = await fetch('/getUsers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify() // No need for a body here; it's just a POST to get users
+  });
+
+  const users = await response.json();
+
+  const usersTableBody = document.getElementById('usersTableBody');
+  usersTableBody.innerHTML = ''; // Clear existing content
+
+  //Go over each user and display the username/isadmin and 2 actions
+  users.forEach(user => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${user.username}</td> 
+      <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+      <td>
+        <button onclick="deleteUser('${user.username}')">Delete</button> 
+        <button onclick="toggleAdmin('${user.username}', ${user.isAdmin})">
+          ${user.isAdmin ? 'Revoke Admin' : 'Make Admin'}
+        </button>
+      </td>
+    `;
+    usersTableBody.appendChild(row);
+  });
+}
+
+//When clicking DELETE we will delete the user by its username (unique)
+async function deleteUser(username) {  
+  const deletionEntry = username;
+  const response = await fetch('/deleteEntry', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ deletionEntry })  // Pass username in the body of the POST request
+  });
+
+  if (response.ok) {
+    alert('User deleted successfully.');
+    fetchUsers(); // Refresh the list
+  } else {
+    alert('Failed to delete user.');
+  }
+}
+
+    //Change the isAdmin attribute of the user (to/from admin) by username (unique)
+    async function toggleAdmin(username, isAdmin) {
+      const newIsAdmin = !isAdmin;
+      const response = await fetch(`/updateUser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username,newIsAdmin })
+        });
+      if (response.ok) {
+        alert('User updated successfully.');
+        fetchUsers(); // Refresh the list
+      } else {
+        alert('Failed to update user.');
+      }
+    }
+
+    // Fetch users when the page loads
+    window.onload = fetchUsers;
+  </script>
+</body>
+</html>

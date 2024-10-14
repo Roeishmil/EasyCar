@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .result-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <div id="resultsContainer"></div>
+
+    <script>
+        // Retrieve search results from session storage
+        const results = JSON.parse(localStorage.getItem('searchResults'));
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        if (results && results.length > 0) {
+            results.forEach(item => {
+                // Create a div for each result
+                const resultDiv = document.createElement('div');
+                resultDiv.classList.add('result-item');
+                
+                // Display the properties you need, for example:
+                resultDiv.innerHTML = `
+                    <h2>${item.name}</h2>
+                    <p>Manufacturer: ${item.manufacturer}</p>
+                    <p>Price: ${item.price}</p>
+                    <p>Description: ${item.description}</p>
+                    <p>Year: ${item.year}</p>
+                    <img src="${item.image}" alt="${item.name} image">
+                `;
+
+                // Append the result to the container
+                resultsContainer.appendChild(resultDiv);
+            });
+        } else {
+            resultsContainer.innerHTML = '<p>No results found.</p>';
+        }
+
+        sessionStorage.removeItem('searchResults');
+    </script>
+</body>
+</html>

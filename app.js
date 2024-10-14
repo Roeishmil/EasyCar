@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername } = require('./database/database'); // catching from database.js the function
+const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry , getFromDataBase } = require('./database/database'); // catching from database.js the function
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -103,7 +104,8 @@ app.post('/addProduct', async (req, res) => {
 
 app.post('/getCurrentStock', async (req, res) => {
   try {
-      const cars = await getCurrentStockFromDatabase(); // Call to database.js to fetch cars
+      const {query} = req.body;
+      const cars = await getCurrentStockFromDatabase(query); // Call to database.js to fetch cars
       res.json({ success: true, data: cars });
   } catch (error) {
       res.status(500).json({ success: false, message: 'Failed to fetch cars', error: error.message });
@@ -147,6 +149,70 @@ try{
 } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to process order', error: error.message });
 }
+});
+
+app.post('/getUsers', async (req, res) => {
+  try {
+    const users = await getAllUsers(); //get all users
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+});
+
+app.post('/deleteEntry', async (req, res) => {
+  try {
+    const { deletionEntry } = req.body;
+    const result = await deleteEntry(deletionEntry,'users'); //Delete one entry
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting entry' });
+  }
+});
+
+app.post('/updateUser', async (req, res) => {
+  try {
+    const { username , newIsAdmin } = req.body;
+    let query = { username: username };
+    let newVal = { $set: {isAdmin: newIsAdmin}};
+    const result = await updateDataBase(query, newVal, 'users');  // Call the updateDataBase function for this user
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating entry' });
+  }
+});
+
+app.post('/getAllOrders', async (req, res) => {
+  try {
+    
+    const orders = await getFromDataBase(null,'orders');
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products' });
+  }
+});
+
+
+app.post('/searchForProducts', async (req, res) => {
+  try {
+    const { name, manufacturer, priceOperator, price } = req.body;
+    
+    let query = {};
+
+    query.quantity = {$gt: 0};
+    if (name) query.name = name;
+    if (manufacturer) query.manufacturer = manufacturer;
+    
+    if (price && priceOperator) {
+      const priceCondition = priceOperator === 'ge' ? { $gte: parseFloat(price) } : { $lte: parseFloat(price) };
+      query.price = priceCondition;
+    }
+
+    const products = await getFromDataBase(query,'products');
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products' });
+  }
 });
 
 // Start the server

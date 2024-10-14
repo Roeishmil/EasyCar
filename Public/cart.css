@@ -1,0 +1,182 @@
+#cart_body {
+font-family: 'Roboto', sans-serif;
+background: linear-gradient(to right, #ece9e6, #ffffff);
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+
+.cart-container {
+background-color: #fff;
+border-radius: 12px;
+padding: 20px;
+width: 90%;
+max-width: 900px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+
+#cart_h1 {
+margin-bottom: 30px;
+font-size: 2.5rem;
+color: #333;
+}
+
+.empty-cart {
+color: #777;
+font-size: 1.2rem;
+}
+
+.cart-item {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 20px;
+padding: 15px;
+border-radius: 8px;
+background: #f9f9f9;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+transition: transform 0.3s ease;
+}
+
+.cart-item:hover {
+transform: scale(1.02);
+}
+
+.item-image img {
+max-width: 80px;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-details h3 {
+font-size: 1.4rem;
+color: #333;
+margin-bottom: 8px;
+}
+
+.item-details p {
+font-size: 1rem;
+color: #666;
+}
+
+.item-actions {
+display: flex;
+align-items: center;
+}
+
+.remove-btn {
+background-color: #ff4c4c;
+color: white;
+border: none;
+padding: 10px 15px;
+font-size: 1rem;
+border-radius: 8px;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 5px;
+transition: background-color 0.3s ease;
+}
+
+.remove-btn i {
+font-size: 16px;
+}
+
+.remove-btn:hover {
+background-color: #e53e3e;
+}
+
+.cart-summary {
+margin-top: 30px;
+text-align: right;
+}
+
+#totalPrice {
+font-size: 1.8rem;
+font-weight: bold;
+color: #333;
+margin-bottom: 20px;
+}
+
+.checkout-btn {
+background-color: #4CAF50;
+color: white;
+border: none;
+padding: 12px 20px;
+font-size: 1.2rem;
+cursor: pointer;
+border-radius: 8px;
+transition: background-color 0.3s ease;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-btn:hover {
+background-color: #45a049;
+}
+
+#cart_to_index_btn{
+background-color: #2f2cf3;
+color: white;
+border: none;
+padding: 12px 20px;
+font-size: 1.2rem;
+cursor: pointer;
+border-radius: 8px;
+transition: background-color 0.3s ease;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+margin-top:-20%;   
+}
+
+.modal {
+display: none; /* Hidden by default */
+position: absolute;
+top: 20px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 1000;
+padding: 20px;
+background-color: white;
+border: 2px solid #ccc;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+width: 400px;
+max-width: 90%;
+cursor: default;
+overflow-y: auto; /* Allow scroll if content overflows */
+}
+
+.modal-content {
+padding: 20px;
+}
+
+.modal-header {
+cursor: move;
+background-color: #f1f1f1;
+padding: 10px;
+border-bottom: 1px solid #ccc;
+}
+
+.close {
+cursor: pointer;
+float: right;
+font-size: 24px;
+}
+
+
+.close:hover,
+.close:focus {
+color: #000;
+text-decoration: none;
+cursor: pointer;
+}
+
+form input, form textarea {
+width: 100%;
+padding: 8px;
+margin-bottom: 15px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}

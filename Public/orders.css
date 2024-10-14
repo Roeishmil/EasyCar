@@ -1,0 +1,33 @@
+
+/* Optional styles for better presentation */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+h1 {
+    color: #333;
+}
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove padding */
+}
+li {
+    margin-bottom: 10px; /* Spacing between items */
+    padding: 10px;
+    border: 1px solid #ccc; /* Border for each order */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background for contrast */
+}
+strong {
+    display: block; /* Make the strong tag block-level for better visibility */
+    margin-bottom: 5px; /* Space below the strong text */
+}
+.username {
+    font-size: 1.5em; /* Larger font size for usernames */
+    font-weight: bold; /* Bold font for usernames */
+    padding: 10px; /* Padding around usernames */
+    background-color: #e0f7fa; /* Light cyan background */
+    border: 2px solid #00796b; /* Darker border */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 15px; /* Space below each username section */
+}

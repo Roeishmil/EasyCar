@@ -60,11 +60,28 @@ async function IsInDatabase(inputData, collectionName,Type) {
 
 async function updateDataBase(query, newvalues, collectionName) {
   try {
-    const collection = db.collection(collectionName); // Reference to the 'users' collection
+    const collection = db.collection(collectionName); // Reference to the collection
     const result = await collection.updateOne(query, newvalues);
     return result;
   } catch (err) {
-    console.error('Failed to insert data', err);
+    console.error('Failed to update data', err);
+    throw err;
+  }
+}
+
+async function getFromDataBase(query,collectionName) {
+  try {
+    const collection = db.collection(collectionName); // Reference to the collection
+    let result;
+    if(query){
+     result = await collection.find(query).toArray();
+    }
+    else{
+     result = await collection.find().toArray();
+    }
+    return result;
+  } catch (err) {
+    console.error('Failed to find data', err);
     throw err;
   }
 }
@@ -81,10 +98,10 @@ async function insertToDataBase(data,collectionName) {
 }
 
 // Function to get all cars from the 'products' collection
-async function getCurrentStockFromDatabase() {
+async function getCurrentStockFromDatabase(query) {
   try {
       const collection = db.collection('products'); // Assuming the collection is 'products'
-      const cars = await collection.find({quantity:{$gt: 0}}).toArray(); // Fetch all documents (cars)
+      const cars = await collection.find(query).toArray(); // Fetch all documents (cars)
       return cars;
   } catch (err) {
       console.error('Failed to fetch cars', err);
@@ -105,4 +122,30 @@ async function findDataByUsername(currentUser ,collectionName) {
   }
 }
 
-module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername};  // Exporting functions
+// Function to get all users
+async function getAllUsers() {
+  try {
+      const users = await db.collection('users').find().toArray();
+      return users;
+  
+  } catch (err) {
+      console.error('Failed to fetch userData', err);
+      throw err;
+  }
+}
+
+// Function to delete an entry
+async function deleteEntry( deletionEntry, collectionName ) {
+  try {
+      console.log(deletionEntry);
+      const result = await db.collection(collectionName).deleteOne({username: deletionEntry});
+      return result;
+  
+  } catch (err) {
+      console.error('Failed to delete entry', err);
+      throw err;
+  }
+}
+
+module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry, getFromDataBase};
+  // Exporting functions

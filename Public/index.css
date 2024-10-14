@@ -9,16 +9,15 @@ body, html {
 header {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 1px;
     background-color: rgba(18,21,31,255);
-    margin-bottom: 1%;
 }
 
 #logo {
     margin-right: 15px;
 }
 
-.button,#productButton {
+.button,#productButton,#manageUsersButton,#searchButton{
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px 20px;
@@ -29,7 +28,7 @@ header {
     border-radius: 5px;
 }
 
-.button:hover {
+.button:hover,#productButton:hover,#manageUsersButton:hover,#searchButton:hover {
     background-color: #1a1a1a;
 }
 
@@ -133,7 +132,7 @@ header {
 .car-card {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0% 4% 8% rgba(0, 0, 0, 0.1);
     margin: 20px;
     width: calc(25% - 40px); /* Four cards per row with some margin */
     box-sizing: border-box;
@@ -189,76 +188,6 @@ footer {
     color: #fff;
     padding: 20px;
     text-align: center;
-}
-/*login page*/
-#loginBody,#signupBody {
-    background-color: #434242;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-#loginForm,#signupForm {
-    background-color: #f2f2f2;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#loginH1,#signupH1 {
-    color: white;
-    text-align: center;
-    margin-bottom: 20px; /* Space between h1 and form */
-}
-
-label {
-    font-size: 1.2em;
-    color: #333;
-    display: block;
-    margin-bottom: 10px;
-}
-
-#loginUsername,
-#loginPassword,
-#signypUsername,
-#signupPassword {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-}
-
-#loginSubmitButton,#signupSubmitButton {
-    width: 100%;
-    margin-top: 3%;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#loginSubmitButton:hover,
-#signupSubmitButton:hover {
-    background-color: #555;
-}
-
-#loginSubmitButton:active,
-#signupSubmitButton:active {
-    background-color: #111;
 }
 
 #welcomeContainer {

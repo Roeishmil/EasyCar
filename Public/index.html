@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyCar - Homepage</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">       d3 graph-->
+    <link rel="stylesheet" href="index.css"/>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
-<body>
+
     <header>
         <div id="logo"><img src="assets/logo.jpg" width="100" height="90"></div>  
         <div id="welcomeContainer"></div>
         <button class="button" id="loginButton" type="button"  onclick="window.location.href='login.html'">Login</button>        
         <button id="productButton" style="display: none;">Add New Product</button> <!-- Product Button to trigger the modal -->
+        <button id="manageUsersButton" style="display: none;" onclick="window.location.href='manageUsers.html'"> Manage Users</button> <!-- Manage users Button to trigger the modal -->
         <button id="currentStock" class="button" type="button" onclick="window.location.href='currentStock.html'">Current Stock</button>
         <button class="button" id="orders" type="button">My orders</button>
+        <!--Search -->
+        <button id="searchButton" onclick="window.open('searchBoxPage.html', 'Search Window', 'width=400,height=400');">⌕ Search</button>
 
         <div class="cart-container-index">
             <!-- Shopping Cart Button -->
@@ -23,11 +28,6 @@
                 <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
             </button>
         </div>
-                
-        <div class="submit">
-            <input type="text" id="searchBar" placeholder="⌕ Search" onkeydown="if (event.key === 'Enter') { goToLoginPage() }"> <!--Todo: add a condition if logged-->
-        </div>
-
 
                 <!-- Modal structure for accepting product details -->
         <div id="productModal" class="modal">
@@ -108,7 +108,7 @@
         <h3>WELCOME TO</h3>
         <h1>EASYCAR INTERNATIONAL</h1>
         <p>
-            are a family run business, an independent luxury car dealership established in 1994 with a curated selection of the latest supercars, luxury SUVs and modern performance cars for sale.
+            We are a family run business, an independent luxury car dealership established in 1994 with a curated selection of the latest supercars, luxury SUVs and modern performance cars for sale.
         </p>
         <p>
             We pride ourselves on preparing and presenting them to the very highest standards whilst our long-serving staff are dedicated to building relationships and ensuring the experience of buying or selling supercars is always an enjoyable, seamless and secure process.
