@@ -1,0 +1,92 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .search-input {
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h3>Search Fields</h3>
+  <form id="searchForm">
+    <div id="searchBox">
+        <input type="text" id="Name" class="search-input" placeholder="Search by Name">
+        <input type="text" id="Manufacturer" class="search-input" placeholder="Search by Manufacturer">
+        <select id="priceOperator" name="priceOperator">
+            <option value="ge">GE</option>
+            <option value="le">LE</option>
+        </select>
+        <input type="number" id="Price" class="search-input" placeholder="Search by Price">
+        <button type="submit" id="searchSubmitButton">Search</button>
+        <button type="button" id="closeSearchBox">Close</button>
+    </div>
+  </form>
+  <script>
+    window.onload = function() {
+        openSearchForm();
+    };
+
+    function openSearchForm() {
+        const searchButton = document.getElementById('searchSubmitButton');
+        const closeButton = document.getElementById('closeSearchBox');
+        const searchForm = document.getElementById('searchForm');
+
+        if (!searchButton || !closeButton || !searchForm) {
+            console.log('cancel search');
+            return;
+        }
+
+        // Close the search form
+        closeButton.addEventListener('click', () => {
+            window.close();
+        });
+        
+        // Handle form submission
+        searchForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('Name').value;
+            const manufacturer = document.getElementById('Manufacturer').value;
+            const priceOperator = document.getElementById('priceOperator').value;
+            const price = document.getElementById('Price').value;
+
+            const response = await fetch('/searchForProducts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, manufacturer: manufacturer, priceOperator: priceOperator, price: price })
+            });
+
+            const results = await response.json();
+            localStorage.setItem('searchResults', JSON.stringify(results));
+
+                 // Ensure parent window is available before trying to redirect
+            if (window.opener) {
+                window.opener.location.href = '/searchResultsPage.html';
+            } else {
+                console.error('No opener window found. Cannot redirect.');
+            }
+
+            // Close the current window
+            window.close();
+        });
+    }
+  </script>
+</body>
+</html>
