@@ -123,25 +123,39 @@ if (ordersButton){
     event.preventDefault(); // Prevent any default action
     
     let currentUser = sessionStorage.getItem('username');
+    const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // Check if the user is admin
+
+  
     if(!currentUser){
       alert('Please login to view your orders');
       window.location.href='login.html';
       return;
     }
 
-      
+    let response;
+
     try {
-      // Send the data to the server using fetch
-      const response = await fetch('/getOrdersByUser', {
+      if (isAdmin) { //Get all user results
+        // Send the data to the server using fetch      
+         response = await fetch('/getAllOrders', {
+          method: 'POST', //means that data will be sent in the body of the request to the server
+          headers: { //the data being sent is in JSON format
+            'Content-Type': 'application/json'
+          },
+        });
+      }
+      else{ //Get by user
+      // Send the data to the server using fetch      
+       response = await fetch('/getOrdersByUser', {
         method: 'POST', //means that data will be sent in the body of the request to the server
         headers: { //the data being sent is in JSON format
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ currentUser }) // Send the name in the body
       });
+    }
   
       const result = await response.json(); //converts the response from the server (which is also in JSON format) back into a JavaScript object for further use.
-      console.log('Orders fetched:', result)
       sessionStorage.setItem('userOrders',JSON.stringify(result));
       window.location.href = 'orders.html';
   
@@ -243,6 +257,9 @@ if (signupSubmitButton){
     }
   });
 }
+
+
+
 
 
 ///////////////////////////////////////////////////////Cart JS Logic /////////////////////////////////////////////////////////////////

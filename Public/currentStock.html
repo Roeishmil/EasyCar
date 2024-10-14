@@ -64,6 +64,15 @@
 
     <h1>Our Current Stock</h1>
 
+    <div class="filter-container">
+        <input type="text" id="filterName" placeholder="Filter by name">
+        <input type="text" id="filterYear" placeholder="Filter by year">
+        <input type="text" id="filterManufacturer" placeholder="Filter by manufacturer">
+        <input type="number" id="filterMinPrice" placeholder="Min Price">
+        <input type="number" id="filterMaxPrice" placeholder="Max Price">
+        <button onclick="fetchCars()">Apply Filters</button>
+    </div>
+
     <div class="car-listing">
         <div class="car">
         <div id="carListing"></div>
@@ -74,11 +83,40 @@
         // Function to fetch cars from the server and display them
 async function fetchCars() {
   try {
+
+            // Get filter values
+            const name = document.getElementById('filterName').value;
+            const year = document.getElementById('filterYear').value;
+            const manufacturer = document.getElementById('filterManufacturer').value;
+            const minPrice = document.getElementById('filterMinPrice').value;
+            const maxPrice = document.getElementById('filterMaxPrice').value;
+            
+
+            const query = {
+                name: name ? { $regex: name, $options: 'i' } : undefined,
+                year: year ? year : undefined,
+                manufacturer: manufacturer ? { $regex: manufacturer, $options: 'i' } : undefined,
+                quantity: {$gt: 0},
+                price: {}
+            };
+
+            //Populate price range
+            if (minPrice) {
+                query.price.$gte = parseFloat(minPrice);
+            }
+            else{
+                query.price.$gte = parseFloat(0);
+            }
+            if (maxPrice) {
+                query.price.$lte = parseFloat(maxPrice);
+            }
+
     const response = await fetch('/getCurrentStock', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      body:JSON.stringify({query})
     });
 
       // Check if the response is ok (status 200-299)

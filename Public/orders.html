@@ -28,6 +28,15 @@
       display: block; /* Make the strong tag block-level for better visibility */
       margin-bottom: 5px; /* Space below the strong text */
     }
+    .username {
+      font-size: 1.5em; /* Larger font size for usernames */
+      font-weight: bold; /* Bold font for usernames */
+      padding: 10px; /* Padding around usernames */
+      background-color: #e0f7fa; /* Light cyan background */
+      border: 2px solid #00796b; /* Darker border */
+      border-radius: 5px; /* Rounded corners */
+      margin-bottom: 15px; /* Space below each username section */
+    }
   </style>
 </head>
 <body>
@@ -37,9 +46,9 @@
   <script>
     // Retrieve the orders from sessionStorage
     const userOrders = JSON.parse(sessionStorage.getItem('userOrders')) || [];
+    const isAdmin = sessionStorage.getItem('isAdmin') === 'true'; // Check if the user is an admin
     const ordersList = document.getElementById('ordersList');
 
-    
     function buildOrderInfo(order, orderListItem) {
       // Display the Order Number using the _id field
       const orderNumberItem = document.createElement('li');
@@ -50,11 +59,6 @@
       const createdAtItem = document.createElement('li');
       createdAtItem.textContent = `Order Date: ${new Date(order.createdAt.$date).toLocaleString()}`;
       orderListItem.appendChild(createdAtItem);
-
-      // Display the username field
-      const usernameItem = document.createElement('li');
-      usernameItem.textContent = `Username: ${order.username}`;
-      orderListItem.appendChild(usernameItem);
 
       // Display specific fields from the items array
       if (Array.isArray(order.items)) {
@@ -78,11 +82,40 @@
     }
 
     if (userOrders.length > 0) {
-      userOrders.forEach(order => {
-        const orderListItem = document.createElement('li');
-        buildOrderInfo(order, orderListItem); // Render the specific fields of each order
-        ordersList.appendChild(orderListItem);
-      });
+      if (isAdmin) {
+        // Group orders by username if the user is an admin
+        const ordersByUser = {};
+
+        // Group orders by username
+        userOrders.forEach(order => {
+          const username = order.username;
+          if (!ordersByUser[username]) {
+            ordersByUser[username] = [];
+          }
+          ordersByUser[username].push(order);
+        });
+
+        // Display orders grouped by username
+        for (const username in ordersByUser) {
+          const userOrdersListItem = document.createElement('li');
+          userOrdersListItem.className = 'username';
+          userOrdersListItem.innerHTML = `<strong>Orders for ${username}</strong>`;
+          ordersList.appendChild(userOrdersListItem);
+
+          ordersByUser[username].forEach(order => {
+            const orderListItem = document.createElement('li');
+            buildOrderInfo(order, orderListItem); // Render the specific fields of each order
+            ordersList.appendChild(orderListItem);
+          });
+        }
+      } else {
+        // Display orders for a non-admin user
+        userOrders.forEach(order => {
+          const orderListItem = document.createElement('li');
+          buildOrderInfo(order, orderListItem); // Render the specific fields of each order
+          ordersList.appendChild(orderListItem);
+        });
+      }
     } else {
       ordersList.innerHTML = '<li>No orders found.</li>';
     }
