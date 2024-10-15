@@ -1,15 +1,28 @@
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+/* General body and html styling */
+body, html {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: #434242;
+    color: #f0f0f0;
 }
+
+/* Headings */
 h1 {
     text-align: center;
     margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #f0f0f0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    background: linear-gradient(to right, #333, #1a1a1a);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Car listing */
 .car-listing {
     display: grid;
     padding: 60px;
@@ -17,39 +30,241 @@ h1 {
     margin: 0 auto;
     max-width: 900px;
 }
+
+/* Car item */
 .car {
-    background-color: #fff;
+    background-color: #726d6d70;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 .car img {
     width: 100%;
     height: auto;
     border-radius: 8px;
 }
+
 .car h2 {
     margin-top: 10px;
 }
+
 .car p {
     margin: 5px 0;
 }
+
+/* Price styling */
 .price {
-    color: #007BFF;
+    color: #333;
     font-size: 1.5em;
     margin-top: 10px;
 }
+
+/* Contact button */
 .contact {
     margin-top: 20px;
 }
+
 .contact a {
     text-decoration: none;
     color: white;
-    background-color: #007BFF;
+    background-color: #333;
     padding: 10px 15px;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
+
 .contact a:hover {
-    background-color: #0056b3;
+    background-color: #1a1a1a;
+}
+
+/* Filter section styling */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background-color: #333;
+    border-radius: 8px;
+}
+
+.filter-container input[type="text"],
+.filter-container input[type="number"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 180px;
+}
+
+.filter-container button {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.filter-container button:hover {
+    background-color: #1a1a1a;
+    transform: scale(1.05);
+}
+
+/* Button styles (consistent across the site) */
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #1a1a1a;
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Header specific button adjustments */
+header button {
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+/* Cart and Orders button improvements */
+#cartButton, #orders {
+    margin-right: 20px;
+    display: inline-flex;
+    align-items: center;
+}
+
+#cartButton i {
+    margin-right: 8px;
+}
+
+/* Header layout adjustments */
+header {
+    background-color: #333;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+header #logo img {
+    max-width: 100px;
+}
+
+header div.cart-container-index {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Center the car card horizontally */
+.car-container-wrapper {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically within the available space */
+    padding: 40px 0; /* Add padding to create space around the car container */
+    min-height: calc(100vh - 100px); /* Make sure it's at least as tall as the viewport minus the header */
+}
+
+/* Car container for car details page */
+.car-container {
+    background-color: #726d6d70;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    max-width: 900px;
+    width: 100%;
+    margin: 20px;
+}
+
+.car-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+/* Car details section for car details page */
+.car-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns for alignment */
+    grid-template-areas: 
+        "make year"
+        "mileage quantity"
+        "description description"
+        "price price";
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Positioning the fields based on the grid-template */
+.car-details p:nth-child(1) { /* Make */
+    grid-area: make;
+    text-align: left;
+}
+
+.car-details p:nth-child(2) { /* Mileage */
+    grid-area: mileage;
+    text-align: left;
+}
+
+.car-details p:nth-child(3) { /* Year */
+    grid-area: year;
+    text-align: right;
+}
+
+.car-details p:nth-child(4) { /* Quantity Available */
+    grid-area: quantity;
+    text-align: right;
+}
+
+.car-details p:nth-child(5) { /* Description */
+    grid-area: description;
+    text-align: center;
+}
+
+.price {
+    grid-area: price;
+    font-size: 1.8em;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Buttons in car details page */
+.contact {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.contact button {
+    background-color: #434242;
+    color: rgb(255, 255, 255);
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.contact button:hover {
+    background-color: #1a1a1a;
+    transform: scale(1.05);
 }

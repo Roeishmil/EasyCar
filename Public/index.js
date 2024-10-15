@@ -111,13 +111,10 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-
-
 //Only add listener once orders button is available (when in main page)
 const ordersButton = document.getElementById('orders');
 if (ordersButton){
   // Updated event listener for the orders button
-
     ordersButton.addEventListener('click', async function(event) {
     event.preventDefault(); // Prevent any default action
     

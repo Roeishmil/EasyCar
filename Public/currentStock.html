@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="currentStock.css"/>
 </head>
 <body onload="fetchCars()">
-
+    <div id="headerContainer"></div>
+    <button class="button" id="goBack" type="button"  onclick="window.location.href='index.html'">Return To Main Page</button>
     <h1>Our Current Stock</h1>
+    
 
     <div class="filter-container">
         <input type="text" id="filterName" placeholder="Filter by name">
@@ -84,7 +86,7 @@ async function fetchCars() {
                   <p>Make: ${car.manufacturer}</p>
                   <p>Year: ${car.year}</p>
                   <p>Mileage: ${car.mileage}</p>
-                  <p class="price">$${car.price}</p>
+                  <p class="price">Price: ${car.price}$</p>
                   <div class="contact">
                     <a href="currentCar.html?name=${encodeURIComponent(car.name)}&manufacturer=${encodeURIComponent(car.manufacturer)}&year=${car.year}&mileage=${car.mileage}&price=${car.price}&description=${encodeURIComponent(car.description)}&quantity=${car.quantity}&image=${encodeURIComponent(car.image)}">
                     More Details

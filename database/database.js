@@ -134,6 +134,58 @@ async function getAllUsers() {
   }
 }
 
+async function getOrderCountByDate() {
+  try {
+    // Get the current date
+    const today = new Date();
+    
+    // Calculate the start of the current week (Monday)
+    const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() - 5)); // Adjust for current week's Monday
+    firstDayOfWeek.setHours(0, 0, 0, 0); // Set time to the start of the day
+    
+    // Calculate the end of the current week (Sunday)
+    const lastDayOfWeek = new Date(today.setDate(firstDayOfWeek.getDate() + 7));
+    lastDayOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
+
+    const result = db.collection('orders').aggregate([
+      {
+        // Match orders created within the current week
+        $match: {
+          createdAt: {
+            $gte: firstDayOfWeek, // Greater than or equal to the start of the week
+            $lte: lastDayOfWeek   // Less than or equal to the end of the week
+          }
+        }
+      },
+      {
+
+        // Convert the createdAt field to only contain the date part (ignore time)
+        $project: {
+          date: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          }
+        }
+      },
+      {
+        // Group by the formatted date and count the number of orders
+        $group: {
+          _id: "$date",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        // sort by date (ascending)
+        $sort: { _id: 1 }
+      }
+    ]).toArray();
+      return result;
+  
+  } catch (err) {
+      console.error('Failed to delete entry', err);
+      throw err;
+  }
+}
+
 // Function to delete an entry
 async function deleteEntry( deletionEntry, collectionName ) {
   try {
@@ -147,5 +199,5 @@ async function deleteEntry( deletionEntry, collectionName ) {
   }
 }
 
-module.exports = { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry, getFromDataBase};
+module.exports = {getOrderCountByDate, insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry, getFromDataBase};
   // Exporting functions

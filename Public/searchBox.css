@@ -1,7 +1,10 @@
 
-body {
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
-    padding: 20px;
+    background-color: #434242;
 }
 .search-input {
     margin: 10px 0;

@@ -1,33 +1,96 @@
-
-/* Optional styles for better presentation */
-body {
+/* General body styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
-    margin: 20px;
+    background-color: #434242; /* Dark theme background */
+    color: #f0f0f0; /* Light text for readability */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
+
+/* Centered page title */
 h1 {
-    color: #333;
+    text-align: center;
+    font-size: 2.8rem; /* Increased font size for the title */
+    color: #f0f0f0;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+/* Styling for the orders list */
 ul {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0; /* Remove padding */
+    list-style-type: none;
+    padding: 0;
+    width: 60%; /* Increased the width for a larger list */
+    max-width: 1200px; /* Larger maximum width */
+    margin: 0 auto;
 }
+
+/* Styling for individual orders */
 li {
-    margin-bottom: 10px; /* Spacing between items */
-    padding: 10px;
-    border: 1px solid #ccc; /* Border for each order */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #f9f9f9; /* Light background for contrast */
+    font-size: 1.2rem; /* Increased font size for list items */
+    margin-bottom: 20px; /* Increased margin for more space between items */
+    padding: 20px; /* Increased padding to make items larger */
+    background-color: #333; /* Dark background for orders */
+    border: 1px solid #555;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
+
+li:hover {
+    transform: scale(1.003); /* Slight zoom on hover */
+    background-color: #323131; /* Darken background on hover */
+}
+
+/* Styling for the strong text (order details) */
 strong {
-    display: block; /* Make the strong tag block-level for better visibility */
-    margin-bottom: 5px; /* Space below the strong text */
+    display: block;
+    color: #007BFF;
+    font-size: 1.4rem; /* Larger font size for emphasis */
+    margin-bottom: 10px;
 }
+
+#goBack{
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+    align-self: start;
+}
+
+/* Styling for username section (admin view) */
 .username {
-    font-size: 1.5em; /* Larger font size for usernames */
-    font-weight: bold; /* Bold font for usernames */
-    padding: 10px; /* Padding around usernames */
-    background-color: #e0f7fa; /* Light cyan background */
-    border: 2px solid #00796b; /* Darker border */
-    border-radius: 5px; /* Rounded corners */
-    margin-bottom: 15px; /* Space below each username section */
+    font-size: 1.8rem; /* Larger font size for usernames */
+    font-weight: bold;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border: 2px solid #00796b;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Improved spacing and indentation for order items */
+.order-item {
+    margin-top: 15px;
+    padding-left: 25px; /* Increased indent for clarity */
+    font-size: 1.3rem; /* Larger font for order details */
+}
+
+.order-item ul {
+    padding-left: 30px;
 }

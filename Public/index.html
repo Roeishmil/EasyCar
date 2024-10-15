@@ -165,60 +165,10 @@
             <button class="view-vehicle">View Vehicle</button>
         </div>
     </section>
-    <!--css d3-->
-    <style>
-    #chart {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .bar {
-        fill: #4CAF50; /* New color for the bars */
-    }
-
-    .bar:hover {
-        fill: #FF5722; /* Hover color */
-    }
-
-    .axis-label {
-        font-size: 14px;
-        font-family: 'Arial', sans-serif;
-        color: #333; /* Darker axis text for contrast */
-    }
-
-    .axis path,
-    .axis line {
-        stroke: #ddd; /* Light grid lines */
-    }
-
-    h2 {
-        text-align: center;
-        font-family: 'Arial', sans-serif;
-        color: #333;
-        margin-top: 20px;
-    }
-
-    svg {
-        background-color: #ffffff; /* Background color of the chart */
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    }
-    
-        .bar {
-            fill: steelblue;
-        }
-        .bar:hover {
-            fill: orange;
-        }
-        .axis-label {
-            font-size: 12px;
-            font-family: sans-serif;
-        }
-    </style>
     <div>
-        <h2>Sales Data for 2024</h2>
-        <div id="chart"></div>
+        <h2 id="weekSales">This week sales</h2>
+        <div id="chart">
+        </div>
         <script src="chart.js"></script>
     </div>
     <script src="index.js"></script>

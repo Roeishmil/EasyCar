@@ -403,3 +403,39 @@ footer {
     border-radius: 4px;
   }
   
+/* Styling for the chart section */
+#chart {
+    background-color: #333; /* Dark background for consistency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px auto; /* Center the chart */
+    width: 90%;
+    max-width: 1000px; /* Limit the chart width */
+}
+
+/* Chart title */
+#chart h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+/* Tooltip styling (for D3.js chart) */
+.tooltip {
+    position: absolute;
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    font-size: 0.9rem;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease;
+}
+
+#weekSales{
+    text-align: center;
+    font-size: 2.45em;
+}
