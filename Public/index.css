@@ -145,7 +145,7 @@ header {
 
 .car-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-bottom: 1px solid #ddd;
 }
 
@@ -202,21 +202,24 @@ footer {
 }
 
 #cartButton {
-    background-color: #007BFF;
+    background-color: #e77f07;
     color: white;
     border: none;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 13px;
     cursor: pointer;
     border-radius: 5px;
+
+   
 }
+
 
 #cartButton i {
     margin-right: 5px;
 }
 
 #cartButton:hover {
-    background-color: #0056b3;
+    background-color: #f1ca1c;
 }
 
 /* General Layout */
