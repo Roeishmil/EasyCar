@@ -396,8 +396,3 @@ if(productForm){
     }
   });
 }
-
-
-
-
-

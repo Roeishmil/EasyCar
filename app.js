@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry , getFromDataBase, getOrderCountByDate } = require('./database/database'); // catching from database.js the function
+const {getOrderCountByDateForThisWeek, insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry , getFromDataBase, } = require('./database/database'); // catching from database.js the function
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -217,12 +217,14 @@ app.post('/searchForProducts', async (req, res) => {
 
 app.post('/getOrderCountByDate', async (req, res) => {
   try {
-    const result = await getOrderCountByDate();
-    res.json(result);
+      const result = await getOrderCountByDateForThisWeek();
+      res.json(result);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching products' });
+      console.error('Error fetching order count:', error);
+      res.status(500).json({ message: 'Error fetching order count' });
   }
 });
+
 
 // Start the server
 app.listen(3000, () => {

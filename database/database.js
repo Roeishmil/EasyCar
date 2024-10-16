@@ -134,32 +134,30 @@ async function getAllUsers() {
   }
 }
 
-async function getOrderCountByDate() {
+async function getOrderCountByDateForThisWeek() {
   try {
-    // Get the current date
+    // Get today's date and set it to the end of today (11:59:59 PM)
     const today = new Date();
-    
-    // Calculate the start of the current week (Monday)
-    const firstDayOfWeek = new Date(today.setDate(today.getDate() - today.getDay() - 5)); // Adjust for current week's Monday
-    firstDayOfWeek.setHours(0, 0, 0, 0); // Set time to the start of the day
-    
-    // Calculate the end of the current week (Sunday)
-    const lastDayOfWeek = new Date(today.setDate(firstDayOfWeek.getDate() + 7));
-    lastDayOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
+    today.setHours(23, 59, 59, 999);  // Set time to the end of today
 
-    const result = db.collection('orders').aggregate([
+    // Calculate the date 7 days ago and set it to the start of that day (00:00:00 AM)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);  // 6 days ago + today makes 7 days
+    sevenDaysAgo.setHours(0, 0, 0, 0);  // Set time to the start of the day
+
+    console.log("Querying orders between:", sevenDaysAgo, "and", today);  // Log the date range
+
+    // Perform the aggregation query
+    const result = await db.collection('orders').aggregate([
       {
-        // Match orders created within the current week
         $match: {
           createdAt: {
-            $gte: firstDayOfWeek, // Greater than or equal to the start of the week
-            $lte: lastDayOfWeek   // Less than or equal to the end of the week
+            $gte: sevenDaysAgo,  // Greater than or equal to 7 days ago
+            $lte: today  // Less than or equal to the end of today
           }
         }
       },
       {
-
-        // Convert the createdAt field to only contain the date part (ignore time)
         $project: {
           date: {
             $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
@@ -167,24 +165,22 @@ async function getOrderCountByDate() {
         }
       },
       {
-        // Group by the formatted date and count the number of orders
         $group: {
           _id: "$date",
           count: { $sum: 1 }
         }
       },
       {
-        // sort by date (ascending)
         $sort: { _id: 1 }
       }
     ]).toArray();
-      return result;
-  
+    return result;
   } catch (err) {
-      console.error('Failed to delete entry', err);
-      throw err;
+    console.error('Failed to fetch orders:', err);
+    throw err;
   }
 }
+
 
 // Function to delete an entry
 async function deleteEntry( deletionEntry, collectionName ) {
@@ -199,5 +195,5 @@ async function deleteEntry( deletionEntry, collectionName ) {
   }
 }
 
-module.exports = {getOrderCountByDate, insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry, getFromDataBase};
+module.exports = { getOrderCountByDateForThisWeek , insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase, findDataByUsername , getAllUsers , deleteEntry, getFromDataBase};
   // Exporting functions

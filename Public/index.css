@@ -123,14 +123,16 @@ header {
     color: white;
 }
 
+/* Car listings styling */
 .car-listings {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
+/* Car card styling */
 .car-card {
-    background-color: #fff;
+    background-color: #898989;
     border-radius: 8px;
     box-shadow: 0% 4% 8% rgba(0, 0, 0, 0.1);
     margin: 20px;
@@ -140,29 +142,36 @@ header {
     flex-direction: column; /* Stack items vertically */
     justify-content: space-between;
     height: 100%; /* Ensure the card takes up full height */
-    
+    min-height: 550px; /* Set minimum height to ensure consistency */
 }
 
+
+/* Ensures image is contained and consistent across cards */
 .car-card img {
     width: 100%;
-    height: 100%;
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
     border-bottom: 1px solid #ddd;
 }
 
+/* Car card title */
 .car-card h3 {
     font-size: 1.25em;
     margin: 16px;
 }
 
+/* Car details styling */
 .car-details {
     padding: 0 16px;
     flex-grow: 1; /* Ensure the details section expands to push the button down */
 }
 
+/* Car details paragraphs */
 .car-details p {
     margin: 8px 0;
 }
 
+/* View vehicle button at the bottom */
 .view-vehicle {
     padding: 12px;
     background-color: #000;
@@ -173,10 +182,7 @@ header {
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s;
-    position: relative; /* Ensure it remains within the context of the card */
-    bottom: 0; /* Attach to the bottom of the card */
     width: 100%; /* Ensure it takes the full width */
-    margin-top: 20%; /* Ensure it's pushed to the bottom of the card */
 }
 
 .view-vehicle:hover {
@@ -440,5 +446,63 @@ footer {
 
 #weekSales{
     text-align: center;
+    color: #ccc;
     font-size: 2.45em;
+}
+
+
+
+/* Styling for the chart container */
+#chart {
+    background: linear-gradient(135deg, #414243, #3a3c3e);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin: 30px auto;
+    width: 95%;
+    max-width: 1100px;
+}
+
+/* Axis labels */
+.x.label, .y.label {
+    fill: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Gridlines styling */
+.grid .tick line {
+    stroke: #000000;
+    stroke-opacity: 0.43;
+}
+
+/* Responsive chart */
+@media screen and (max-width: 768px) {
+    #chart {
+        width: 100%;
+    }
+}
+
+/* Bar styles */
+.bar {
+    stroke-width: 2;
+    stroke: #2f3640;
+    transition: fill 0.3s;
+}
+.bar:hover {
+    fill: #74c69d;  /* Highlight on hover */
 }
