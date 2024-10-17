@@ -48,9 +48,6 @@ async function IsInDatabase(inputData, collectionName,Type) {
           user = await collection.findOne({ username: inputData.username}); 
           break;
       }
-      if(user){
-      console.log('Match found',user);
-      }
       return user;  // Return the user document if found
   } catch (err) {
       console.error('Error finding user in database', err);
@@ -144,8 +141,6 @@ async function getOrderCountByDateForThisWeek() {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 6);  // 6 days ago + today makes 7 days
     sevenDaysAgo.setHours(0, 0, 0, 0);  // Set time to the start of the day
-
-    console.log("Querying orders between:", sevenDaysAgo, "and", today);  // Log the date range
 
     // Perform the aggregation query
     const result = await db.collection('orders').aggregate([

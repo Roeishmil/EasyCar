@@ -36,7 +36,7 @@ async function fetchAndRenderChart() {
     const x = d3.scaleBand()
       .domain(parsedData.map(d => d.date))
       .range([0, width])
-      .padding(0.4);
+      .padding(0.44);
 
     const y = d3.scaleLinear()
       .domain([0, d3.max(parsedData, d => d.count)])
@@ -50,7 +50,7 @@ async function fetchAndRenderChart() {
 
     // Add Y-axis
     svg.append("g")
-      .call(d3.axisLeft(y).ticks(10))
+      .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("d")))
       .attr("class", "y-axis");
 
     // Add gridlines

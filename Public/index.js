@@ -26,7 +26,7 @@ function changeSlide(step) {
 
 function resetProgressBar() {
     const progressBar = document.querySelectorAll('.progress-bar')[currentIndex];
-    progressBar.style.width = '0%'; // Reset the width to 0%
+    progressBar.style.width = '0%';
     progressBar.style.transition = 'none'; // Disable transition temporarily
 }
 
@@ -172,7 +172,6 @@ if (loginSubmitButton){
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-      console.log('Login validation submition');
         // Get username and password from input fields
         const loginUsername = document.getElementById('loginUsername').value;
         const loginPassword = document.getElementById('loginPassword').value;
@@ -219,7 +218,6 @@ if (signupSubmitButton){
     event.preventDefault(); // Prevent default form submission behavior
     console.log("eventListener.signUp");
     try {
-      console.log('signUp validation submition');
         // Get username and password from input fields
         const signupUsername = document.getElementById('loginUsername').value.trim();
         const signupPassword = document.getElementById('loginPassword').value.trim();
@@ -253,9 +251,6 @@ if (signupSubmitButton){
     }
   });
 }
-
-
-
 
 
 ///////////////////////////////////////////////////////Cart JS Logic /////////////////////////////////////////////////////////////////
@@ -362,13 +357,13 @@ if(productForm){
 
     // Gather input values from the form
     const productData = {
-      name: document.getElementById('productName').value,
-      year: document.getElementById('productYear').value,
-      mileage: document.getElementById('productMileage').value,
-      price: document.getElementById('productPrice').value,
+      name: document.getElementById('productName').value.trim(),
+      year: document.getElementById('productYear').value.trim(),
+      mileage: document.getElementById('productMileage').value.trim(),
+      price: document.getElementById('productPrice').value.trim(),
       description: document.getElementById('productDescription').value,
-      manufacturer: document.getElementById('productManufacturer').value,
-      quantity: document.getElementById('productQuantity').value,
+      manufacturer: document.getElementById('productManufacturer').value.trim(),
+      quantity: document.getElementById('productQuantity').value.trim(),
       image: document.getElementById('productImage').value
     };
 

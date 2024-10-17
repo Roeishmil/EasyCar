@@ -1,54 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en"></html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .result-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-        }
-    </style>
+    <title>Car Dealership Stock Page</title>
+    <link rel="stylesheet" href="currentStock.css"/>
 </head>
-<body>
+<body onload="fetchCarsNew()">
+    <div id="headerContainer"></div>
+    <button class="button" id="goBack" type="button"  onclick="window.location.href='index.html'">Return To Main Page</button>
     <h1>Search Results</h1>
-    <div id="resultsContainer"></div>
 
+    <div class="car-listing">
+        <div class="car">
+        <div id="carListing"></div>
+        </div>
+        
+    </div>
     <script>
-        // Retrieve search results from session storage
-        const results = JSON.parse(localStorage.getItem('searchResults'));
-        const resultsContainer = document.getElementById('resultsContainer');
+// Function to fetch cars from the server and display them
+async function fetchCarsNew() {
+  try {
+    const result = JSON.parse(localStorage.getItem('searchResults'));
+    const carListing = document.getElementById('carListing');
+        if (result && result.length > 0) {
+          carListing.innerHTML = '';  // Clear existing cars
 
-        if (results && results.length > 0) {
-            results.forEach(item => {
-                // Create a div for each result
-                const resultDiv = document.createElement('div');
-                resultDiv.classList.add('result-item');
-                
-                // Display the properties you need, for example:
-                resultDiv.innerHTML = `
-                    <h2>${item.name}</h2>
-                    <p>Manufacturer: ${item.manufacturer}</p>
-                    <p>Price: ${item.price}</p>
-                    <p>Description: ${item.description}</p>
-                    <p>Year: ${item.year}</p>
-                    <img src="${item.image}" alt="${item.name} image">
-                `;
+          result.forEach(car => {
+              const carElement = document.createElement('div');
+              carElement.classList.add('car');
+              carElement.innerHTML = `
+                  <img src="${car.image}" alt="${car.name}">
+                  <h2>${car.name}</h2>
+                  <p>Make: ${car.manufacturer}</p>
+                  <p>Year: ${car.year}</p>
+                  <p>Mileage: ${car.mileage}</p>
+                  <p class="price">Price: ${car.price}$</p>
+                  <div class="contact">
+                    <a href="currentCar.html?name=${encodeURIComponent(car.name)}&manufacturer=${encodeURIComponent(car.manufacturer)}&year=${car.year}&mileage=${car.mileage}&price=${car.price}&description=${encodeURIComponent(car.description)}&quantity=${car.quantity}&image=${encodeURIComponent(car.image)}">
+                    More Details
+                    </a>
 
-                // Append the result to the container
-                resultsContainer.appendChild(resultDiv);
-            });
-        } else {
-            resultsContainer.innerHTML = '<p>No results found.</p>';
-        }
+                  </div>
+              `;
+              carListing.appendChild(carElement);
+          });
+      } else {
+        carListing.innerHTML='No Result Found - Please Be Case Sensitive.';
+      }
+  } catch (error) {
+      console.error('Error fetching cars:', error);
+  }
+}
 
-        sessionStorage.removeItem('searchResults');
+function openCarDetails(name, manufacturer, year, mileage, price, image) {
+    const detailsWindow = window.open('', '_blank', 'width=800,height=600');
+
+    detailsWindow.document.write(`
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Car Details</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                    color: #333;
+                    margin: 0;
+                    padding: 20px;
+                }
+                .car-container {
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                .car-container img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 10px;
+                }
+                .car-container h2 {
+                    margin-top: 20px;
+                    font-size: 2em;
+                    color: #333;
+                }
+                .car-details {
+                    margin-top: 20px;
+                }
+                .car-details p {
+                    font-size: 1.2em;
+                    margin: 5px 0;
+                }
+                .price {
+                    font-size: 1.5em;
+                    color: #007BFF;
+                    margin-top: 15px;
+                }
+                .contact {
+                    margin-top: 30px;
+                }
+                .contact a {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    background-color: #007BFF;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 5px;
+                }
+                .contact a:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="car-container">
+                <img src="${image}" alt="${name}">
+                <h2>${name}</h2>
+                <div class="car-details">
+                    <p><strong>Make:</strong> ${manufacturer}</p>
+                    <p><strong>Year:</strong> ${year}</p>
+                    <p><strong>Mileage:</strong> ${mileage}</p>
+                    <p class="price"><strong>Price:</strong> $${price}</p>
+                </div>
+                <div class="contact">
+                    <a href="mailto:dealer@example.com">Contact Us</a>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    }
+
+    sessionStorage.removeItem('searchResults');
     </script>
 </body>
 </html>

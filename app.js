@@ -31,7 +31,6 @@ app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the i
   const loginInfo = req.body;  // Get the username and password from the request body
 
   try {
-      console.log('Login validation'); //Testing
       const user = await IsInDatabase(loginInfo, 'users','login');  // Check if user exists in the 'users' collection
       if (user) {
           res.json({ success: true, isAdmin: user.isAdmin });  // Send success response with user's level

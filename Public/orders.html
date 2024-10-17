@@ -25,7 +25,7 @@
 
       // Display the createdAt field
       const createdAtItem = document.createElement('li');
-      createdAtItem.textContent = `Order Date: ${new Date(order.createdAt.$date).toLocaleString()}`;
+      createdAtItem.textContent = `Order Date: ${new Date(order.createdAt).toLocaleString()}`;
       orderListItem.appendChild(createdAtItem);
 
       // Display specific fields from the items array
@@ -39,7 +39,7 @@
               <li>Name: ${item.name}</li>
               <li>Manufacturer: ${item.manufacturer}</li>
               <li>Year: ${item.year}</li>
-              <li>Price: ${item.price}</li>
+              <li>Price: ${item.price}$</li>
               <li>Description: ${item.description}</li>
             </ul>
           `;
