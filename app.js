@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const {getOrderCountByDateForThisWeek, insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry , getFromDataBase, } = require('./database/database'); // catching from database.js the function
+const bcrypt = require('bcrypt');
+const salt = 10; // Number of rounds for salting
 
 require('dotenv').config();
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -33,14 +35,30 @@ app.get('/api/maps-api-key', (req, res) => {
   res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
 });
 
-app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the input
+app.post('/validateLogin', async (req, res) => {
   const loginInfo = req.body;  // Get the username and password from the request body
 
   try {
-      const user = await IsInDatabase(loginInfo, 'users','login');  // Check if user exists in the 'users' collection
+      console.log('Login attempt with:', loginInfo);
+
+      // Fetch user by username (the password will be compared later)
+      const user = await IsInDatabase({ username: loginInfo.username }, 'users', 'login');
+
       if (user) {
-          res.json({ success: true, isAdmin: user.isAdmin });  // Send success response with user's level
+          console.log('User found:', user);
+
+          // Compare the provided password with the stored hashed password
+          const match = await bcrypt.compare(loginInfo.password, user.password);
+
+          if (match) {
+              console.log('Login successful');
+              res.json({ success: true, isAdmin: user.isAdmin });  // Passwords match, login successful
+          } else {
+              console.log('Invalid password');
+              res.status(401).json({ success: false, message: 'Invalid username or password' });
+          }
       } else {
+          console.log('User not found');
           res.status(401).json({ success: false, message: 'Invalid username or password' });
       }
   } catch (error) {
@@ -49,21 +67,28 @@ app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the i
   }
 });
 
-app.post('/signupUser', async (req, res) => { //TODO - Hash and encrypt the input
+app.post('/signupUser', async (req, res) => {
   const signupInfo = req.body;  // Get the username and password from the request body
 
   try {
-      console.log('Signup validation'); //Testing
-      const user = await IsInDatabase(signupInfo, 'users','signup');  // Check if user exists in the 'users' collection
+      console.log('Signup validation');
+      const user = await IsInDatabase(signupInfo, 'users', 'signup');  // Check if user exists in the 'users' collection
+
       if (user) {
-          res.json({ success: false, message:"User already exsit"});  // Send success response with user's level
+          console.log('User already exists');
+          res.json({ success: false, message: "User already exists" });
       } else {
-          const result=await insertToDataBase(signupInfo,"users");
-          if(result){
-            res.json({ success: true, message:"User added succesfully"});
-          }
-          else{
-            res.json({success:false, message:"Failed to add user"});
+          // Hash the password before saving
+          console.log('Hashing password...');
+          const hashedPassword = await bcrypt.hash(signupInfo.password, salt);
+          signupInfo.password = hashedPassword;  // Replace plain password with hashed password
+
+          const result = await insertToDataBase(signupInfo, "users");
+          console.log('User added:', result);
+          if (result) {
+              res.json({ success: true, message: "User added successfully" });
+          } else {
+              res.json({ success: false, message: "Failed to add user" });
           }
       }
   } catch (error) {
@@ -71,6 +96,8 @@ app.post('/signupUser', async (req, res) => { //TODO - Hash and encrypt the inpu
       res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+
+
 
 
 app.post('/addProduct', async (req, res) => {

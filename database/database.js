@@ -35,17 +35,19 @@ async function insertData(data) {
   }
 
 // Function to check if user exists in the database
-async function IsInDatabase(inputData, collectionName,Type) {
+//We changed the fetch to only username because the comparison should be done using bcrypt.compare(), and not by querying the hashed password directly.
+async function IsInDatabase(inputData, collectionName, Type) {
   let user;
   try {
       const collection = db.collection(collectionName);
       switch(Type) {
         case 'login':
-          user = await collection.findOne({ username: inputData.username, password: inputData.password });  
+          // Find the user by username only
+          user = await collection.findOne({ username: inputData.username });  
           break;
 
         case 'signup':
-          user = await collection.findOne({ username: inputData.username}); 
+          user = await collection.findOne({ username: inputData.username }); 
           break;
       }
       return user;  // Return the user document if found
