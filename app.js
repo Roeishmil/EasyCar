@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const {getOrderCountByDateForThisWeek, insertData, IsInDatabase, insertToDataBase, getCurrentStockFromDatabase, updateDataBase , findDataByUsername , getAllUsers,deleteEntry , getFromDataBase, } = require('./database/database'); // catching from database.js the function
 
+require('dotenv').config();
+const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,6 +29,9 @@ app.post('/insert', async (req, res) => {
   }
 });
 
+app.get('/api/maps-api-key', (req, res) => {
+  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
+});
 
 app.post('/validateLogin', async (req, res) => { //TODO - Hash and encrypt the input
   const loginInfo = req.body;  // Get the username and password from the request body
